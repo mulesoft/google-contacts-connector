@@ -24,18 +24,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
-import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
 import org.mule.api.NestedProcessor;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Connector;
-import org.mule.api.annotations.Paged;
 import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.lifecycle.Start;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
+import org.mule.api.annotations.oauth.OAuthAccessTokenIdentifier;
 import org.mule.api.annotations.oauth.OAuthAuthorizationParameter;
 import org.mule.api.annotations.oauth.OAuthConsumerKey;
 import org.mule.api.annotations.oauth.OAuthConsumerSecret;
@@ -48,17 +45,14 @@ import org.mule.api.annotations.param.Optional;
 import org.mule.modules.google.AbstractGoogleOAuthConnector;
 import org.mule.modules.google.AccessType;
 import org.mule.modules.google.ForcePrompt;
-import org.mule.modules.google.GoogleUserIdExtractor;
+import org.mule.modules.google.IdentifierPolicy;
 import org.mule.modules.google.api.domain.BatchResult;
 import org.mule.modules.google.api.util.DateTimeUtils;
-import org.mule.modules.google.contact.transformer.BatchResultToBulkOperationTransformer;
 import org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity;
 import org.mule.modules.google.contact.wrappers.GoogleContactEntry;
 import org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry;
 import org.mule.modules.google.oauth.invalidation.InvalidationAwareCredential;
 import org.mule.modules.google.oauth.invalidation.OAuthTokenExpiredException;
-import org.mule.streaming.PagingConfiguration;
-import org.mule.streaming.PagingDelegate;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
@@ -87,7 +81,7 @@ import com.google.gdata.util.ServiceException;
  *
  * @author mariano.gonzalez@mulesoft.com
  */
-@Connector(name="google-contacts", schemaVersion="1.7.4", friendlyName="Google Contacts", minMuleVersion="3.5", configElementName="config-with-oauth")
+@Connector(name="google-contacts", schemaVersion="1.7.4", friendlyName="Google Contacts", minMuleVersion="3.4", configElementName="config-with-oauth")
 @OAuth2(
 		authorizationUrl = "https://accounts.google.com/o/oauth2/auth",
 		accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
@@ -143,6 +137,19 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     @Default(USER_PROFILE_SCOPE + " https://www.google.com/m8/feeds")
     private String scope;
     
+    /**
+     * This policy represents which id we want to use to represent each google account.
+     * 
+     * PROFILE means that we want the google profile id. That means, the user's primary key in google's DB.
+     * This is a long number represented as a string.
+     * 
+     * EMAIL means you want to use the account's email address
+     */
+    @Configurable
+    @Optional
+    @Default("EMAIL")
+    private IdentifierPolicy identifierPolicy = IdentifierPolicy.EMAIL;
+    
 	@OAuthAccessToken
 	private String accessToken;
     
@@ -171,11 +178,11 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 */
 	private URL grouptBatchUrl = this.newURL(GROUP_BATCH_FEED_URL);
 	
-	@Start
-	public void init() {
-		this.registerTransformer(new BatchResultToBulkOperationTransformer());
-	}
-	
+	@OAuthAccessTokenIdentifier
+   	public String getAccessTokenId() {
+   		return this.identifierPolicy.getId(this);
+   	}
+   	
    	@OAuthPostAuthorization
    	public void postAuth() {
    		Credential credential = new InvalidationAwareCredential(BearerToken.authorizationHeaderAccessMethod());
@@ -186,7 +193,6 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 		service.setOAuth2Credentials(credential);
 
 		this.setService(service);
-		GoogleUserIdExtractor.fetchAndPublishAsFlowVar(this);
    	}
 	
 	/**
@@ -201,80 +207,58 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
      * 					 an updated timestamp earlier than the specified timestamp will be returned.
 	 * @param datetimeFormat the pattern to be used for parsing updatedMin and updatedMax
 	 * @param fullTextQuery Sets the full text query string that will be used for the query.
+	 * @param maxResults  Sets the maximum number of results to return for the query.  Note: a GData server may choose to provide
+	 * 					fewer results, but will never provide more than the requested maximum.
+	 * @param firstResult Sets the start index for query results.  This is a 1-based index.
 	 * @param sortOrder valid values are NONE, ASCENDING and DESCENDING
 	 * @param showDeleted wether to show deleted entries or not
 	 * @param orderBy the field to be used when sorting. Valid values are NONE, LAST_MODIFIED and EDITED 
 	 * @param groupId only show contacts from a given group
-	 * @param pagingConfiguration the paging configuration object
-	 * @return an auto paginated iterator with instances of com.google.gdata.data.contacts.ContactEntry
+	 * @return a list with instances of com.google.gdata.data.contacts.ContactEntry
 	 * @throws IOException if there's a communication error with google's servers 
 	 * @throws ServiceException if the operation raises an error on google's end
 	 */
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	@Paged
-	public PagingDelegate<GoogleContactEntry> getContacts(
-									final @Optional String updatedMin,
-									final @Optional String updatedMax,
-									final @Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat,
-									final @Optional String fullTextQuery,
-									final @Optional @Default("NONE") SortOrder sortOrder,
-									final @Optional @Default("false") Boolean showDeleted,
-									final @Optional @Default("NONE") OrderBy orderBy,
-									final @Optional String groupId,
-									final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
+	public List<GoogleContactEntry> getContacts(
+									@Optional String updatedMin,
+									@Optional String updatedMax,
+									@Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat,
+									@Optional String fullTextQuery,
+									@Optional @Default("1000") int maxResults,
+									@Optional @Default("1") int firstResult,
+									@Optional @Default("NONE") SortOrder sortOrder,
+									@Optional @Default("false") Boolean showDeleted,
+									@Optional @Default("NONE") OrderBy orderBy,
+									@Optional String groupId) throws IOException, ServiceException {
 		
-		return new PagingDelegate<GoogleContactEntry>() {
-			
-			private int start = 1;
-			
-			@Override
-			public List<GoogleContactEntry> getPage() {
-				ContactQuery query = new ContactQuery(contactFeedURL);
-				
-				if (updatedMax != null) {
-					query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
-				}
-				
-				if (updatedMin != null) {
-					query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
-				}
-				
-				query.setFullTextQuery(fullTextQuery);
-				query.setMaxResults(pagingConfiguration.getFetchSize());
-				query.setStartIndex(this.start);
-				
-				query.setShowDeleted(showDeleted);
-				query.setOrderBy(orderBy);
-				query.setGroup(groupId);
-				query.setSortOrder(sortOrder);
-				
-				List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
-				
-				try {
-					for (ContactEntry entry : getService().getFeed(query, ContactFeed.class).getEntries()) {
-						entriesResult.add(new GoogleContactEntry(entry));
-					}
-					
-					this.start += pagingConfiguration.getFetchSize();
-					
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-				
-				return entriesResult;
-			}
-			
-			@Override
-			public int getTotalResults() {
-				return -1;
-			}
-			
-			@Override
-			public void close() throws MuleException {}
-			
-		};
+		ContactQuery query = new ContactQuery(this.contactFeedURL);
+		
+		if (updatedMax != null) {
+			query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
+		}
+		
+		if (updatedMin != null) {
+			query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
+		}
+		
+		query.setFullTextQuery(fullTextQuery);
+		query.setMaxResults(maxResults);
+		query.setStartIndex(firstResult);
+		
+		query.setShowDeleted(showDeleted);
+		query.setOrderBy(orderBy);
+		query.setGroup(groupId);
+		query.setSortOrder(sortOrder);
+		
+		List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
+		
+		for (ContactEntry entry : getService().getFeed(query, ContactFeed.class).getEntries()) {
+			entriesResult.add(new GoogleContactEntry(entry));
+		}
+		
+		return entriesResult;
 	}
 	
 	/**
@@ -315,7 +299,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactEntry insertContact(@Optional @Default("#[payload]") GoogleContactEntry contact) throws IOException, ServiceException {
+	public GoogleContactEntry insertContact(@Optional @Default("#[payload:]") GoogleContactEntry contact) throws IOException, ServiceException {
 		return new GoogleContactEntry(getService().insert(this.contactFeedURL, GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact)));
 	}
 	
@@ -334,7 +318,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactEntry updateContact(@Optional @Default("#[payload]") GoogleContactEntry contact) throws IOException, ServiceException, IllegalArgumentException, URISyntaxException {
+	public GoogleContactEntry updateContact(@Optional @Default("#[payload:]") GoogleContactEntry contact) throws IOException, ServiceException, IllegalArgumentException, URISyntaxException {
 		URL updateUrl = new URL(contact.getEditLink().getHref());
 		
 		return new GoogleContactEntry(
@@ -359,7 +343,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactEntry addGroup(@Optional @Default("#[payload]") GoogleContactEntry contact, String groupId) throws IOException, ServiceException {
+	public GoogleContactEntry addGroup(@Optional @Default("#[payload:]") GoogleContactEntry contact, String groupId) throws IOException, ServiceException {
 		GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact).addGroupMembershipInfo(new GroupMembershipInfo(false, groupId));
 		URL editUrl = null;
 		
@@ -401,7 +385,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public void deleteContact(@Optional @Default("#[payload]") GoogleContactEntry entry) throws IOException, ServiceException {
+	public void deleteContact(@Optional @Default("#[payload:]") GoogleContactEntry entry) throws IOException, ServiceException {
 		GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, entry).delete();
 	}
 	
@@ -435,8 +419,8 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public InputStream downloadPhoto(@Optional @Default("#[payload]") GoogleContactEntry contact) throws IOException, ServiceException {
-		Link photoLink = GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact).getContactPhotoLink();		
+	public InputStream downloadPhoto(@Optional @Default("#[payload:]") GoogleContactEntry contact) throws IOException, ServiceException {
+		Link photoLink = GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact).getContactPhotoLink();
 
 		if (photoLink != null) {
 		
@@ -462,7 +446,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public void updateContactPhoto(String contactId, @Optional @Default("#[payload]") InputStream in) throws IOException, ServiceException {
+	public void updateContactPhoto(String contactId, @Optional @Default("#[payload:]") InputStream in) throws IOException, ServiceException {
 		ContactEntry contact = GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, getContactById(contactId));
 		Link photoLink = contact.getContactPhotoLink();
 		URL photoUrl = new URL(photoLink.getHref());
@@ -507,7 +491,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public void deleteContactPhoto(@Optional @Default("#[payload]") GoogleContactEntry contact) throws IOException, ServiceException {
+	public void deleteContactPhoto(@Optional @Default("#[payload:]") GoogleContactEntry contact) throws IOException, ServiceException {
 		Link photoLink = GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact).getContactPhotoLink();
 		URL photoUrl = new URL(photoLink.getHref());
 		this.getService().delete(photoUrl, photoLink.getEtag());
@@ -518,68 +502,41 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * 
 	 * {@sample.xml ../../../doc/GoogleContactsConnector.xml.sample google-contacts:delete-contact-photo}
 	 * 
+	 * @param accessToken the OAuth2 access token
 	 * @param updatedMin Sets the minimum updated timestamp used for the query.  Only entries with
 	 * 					an updated timestamp equal to or later than the specified timestamp will be returned. 
 	 * @param updatedMax Sets the maximum updated timestamp used for the query.  Only entries with
 	 * 					  an updated timestamp earlier than the specified timestamp will be returned.
 	 * @param datetimeFormat the date pattern used to parse updatedMin and updatedMax
-	 * @param pagingConfiguration the pagingConfiguration object
-	 * @return an auto paginated iterator with instances of {@link com.google.gdata.data.contacts.ContactGroupEntry}
+	 * @return a list with instances of {@link com.google.gdata.data.contacts.ContactGroupEntry}
 	 * @throws IOException if there's a communication error with google's servers
 	 * @throws ServiceException if the operation raises an error on google's end
 	 */
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	@Paged
-	public PagingDelegate<GoogleContactGroupEntry> getGroups(
-											final @Optional String updatedMin,
-											final @Optional String updatedMax,
-											final @Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat,
-											final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
-		return new PagingDelegate<GoogleContactGroupEntry>() {
-			
-			private int start = 1;
-			
-			@Override
-			public List<GoogleContactGroupEntry> getPage() {
-				ContactQuery query = new ContactQuery(groupFeedURL);
-				
-				if (updatedMax != null) {
-					query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
-				}
-				
-				if (updatedMin != null) {
-					query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
-				}
-				
-				query.setStartIndex(this.start);
-				query.setMaxResults(pagingConfiguration.getFetchSize());
-				
-				List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
-				
-				try {
-					for (ContactGroupEntry cge : getService().getFeed(query, ContactGroupFeed.class).getEntries()) {
-						listResult.add(new GoogleContactGroupEntry(cge));
-					}
-					
-					this.start += pagingConfiguration.getFetchSize();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-				
-				return listResult;
-			}
-			
-			@Override
-			public int getTotalResults() {
-				return -1;
-			}
-			
-			@Override
-			public void close() throws MuleException {}
-			
-		};
+	public List<GoogleContactGroupEntry> getGroups(
+											@Optional String updatedMin,
+											@Optional String updatedMax,
+											@Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat ) throws IOException, ServiceException {
+		
+		ContactQuery query = new ContactQuery(this.groupFeedURL);
+		
+		if (updatedMax != null) {
+			query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
+		}
+		
+		if (updatedMin != null) {
+			query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
+		}
+		
+		List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
+		
+		for (ContactGroupEntry cge : getService().getFeed(query, ContactGroupFeed.class).getEntries()) {
+			listResult.add(new GoogleContactGroupEntry(cge));
+		}
+		
+		return listResult;
 	}
 	
 	/**
@@ -596,17 +553,14 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	public GoogleContactGroupEntry getGroupByName(String groupName) throws IOException, ServiceException {
-		PagingDelegate<GoogleContactGroupEntry> delegate = this.getGroups(null, null, null, new PagingConfiguration(100));
+		List<GoogleContactGroupEntry> groups = this.getGroups(null, null, null);
 		
-		List<GoogleContactGroupEntry> groups = delegate.getPage();
-		while (!CollectionUtils.isEmpty(groups)) {
+		if (groups != null)	{
 			for (GoogleContactGroupEntry group : groups) {
 				if (group.getPlainTextContent().equals(groupName)) {
 					return group;
 				}
 			}
-			
-			groups = delegate.getPage();
 		}
 		
 		return null;
@@ -649,7 +603,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactGroupEntry createGroup(@Optional @Default("#[payload]") GoogleContactGroupEntry group) throws IOException, ServiceException {
+	public GoogleContactGroupEntry createGroup(@Optional @Default("#[payload:]") GoogleContactGroupEntry group) throws IOException, ServiceException {
 		return new GoogleContactGroupEntry(getService().insert(this.groupFeedURL, GoogleContactBaseEntity.getWrappedEntity(ContactGroupEntry.class, group)));
 	}
 	
@@ -666,7 +620,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactGroupEntry updateGroup(@Optional @Default("#[payload]") GoogleContactGroupEntry group)  throws IOException, ServiceException {
+	public GoogleContactGroupEntry updateGroup(@Optional @Default("#[payload:]") GoogleContactGroupEntry group)  throws IOException, ServiceException {
 		return new GoogleContactGroupEntry(getService().update(this.groupFeedURL, GoogleContactBaseEntity.getWrappedEntity(ContactGroupEntry.class, group)));
 	}
 	
@@ -698,7 +652,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public void deleteGroup(@Optional @Default("#[payload]") GoogleContactGroupEntry group) throws IOException, ServiceException {
+	public void deleteGroup(@Optional @Default("#[payload:]") GoogleContactGroupEntry group) throws IOException, ServiceException {
 		GoogleContactBaseEntity.getWrappedEntity(ContactGroupEntry.class, group).delete();
 	}
 	
@@ -715,7 +669,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public List<BatchResult> batchContacts(@Optional String batchId, @Optional @Default("#[payload]") List<NestedProcessor> operations) throws Exception {
+	public List<BatchResult> batchContacts(@Optional String batchId, @Optional @Default("#[payload:]") List<NestedProcessor> operations) throws Exception {
 		return this.batch(operations, this.contactBatchUrl, new ContactFeed());
 	}
 	
@@ -737,7 +691,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public List<BatchResult> batchGroups(@Optional String batchId, @Optional @Default("#[payload]") List<NestedProcessor> operations) throws Exception {
+	public List<BatchResult> batchGroups(@Optional String batchId, @Optional @Default("#[payload:]") List<NestedProcessor> operations) throws Exception {
 		return this.batch(operations, this.grouptBatchUrl, new ContactGroupFeed());
 	}
 	
@@ -756,8 +710,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * @throws IllegalStateException if not nested in batch-contact or batch-group 
 	 */
 	@Processor
+	@OAuthProtected
+	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	@Inject
-	public void batchInsert(MuleMessage message, String operationId, @Optional @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+	public void batchInsert(MuleMessage message, String operationId, @Optional @Default("#[payload:]") Collection<GoogleContactBaseEntity<?>> entries) {
 		
 		for (GoogleContactBaseEntity<?> entry : entries) {
 			this.addBatchOperation(
@@ -783,8 +739,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * @throws IllegalStateException if not nested in batch-contact or batch-group
 	 */
 	@Processor
+	@OAuthProtected
+	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	@Inject
-	public void batchUpdate(MuleMessage message, String operationId, @Optional @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+	public void batchUpdate(MuleMessage message, String operationId, @Optional @Default("#[payload:]") Collection<GoogleContactBaseEntity<?>> entries) {
 		
 		for (GoogleContactBaseEntity<?> entry : entries) {
 			this.addBatchOperation(
@@ -810,8 +768,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * @throws IllegalStateException if not nested in batch-contact or batch-group
 	 */
 	@Processor
+	@OAuthProtected
+	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	@Inject
-	public void batchDelete(MuleMessage message, String operationId, @Optional @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+	public void batchDelete(MuleMessage message, String operationId, @Optional @Default("#[payload:]") Collection<GoogleContactBaseEntity<?>> entries) {
 		
 		for (GoogleContactBaseEntity<?> entry : entries) {
 			this.addBatchOperation(
@@ -974,4 +934,11 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 		this.accessToken = accessToken;
 	}
 
+	public IdentifierPolicy getIdentifierPolicy() {
+		return identifierPolicy;
+	}
+
+	public void setIdentifierPolicy(IdentifierPolicy identifierPolicy) {
+		this.identifierPolicy = identifierPolicy;
+	}
 }

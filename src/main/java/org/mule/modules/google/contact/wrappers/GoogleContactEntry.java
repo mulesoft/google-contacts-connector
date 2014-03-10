@@ -59,7 +59,6 @@ public class GoogleContactEntry extends GoogleContactBaseEntity<ContactEntry> {
 		if (fName == null) {
 			fName = new FamilyName();
 			fName.setImmutable(false);
-			name.setFamilyName(fName);
 		}
 		
 		fName.setValue(familyName);
@@ -76,7 +75,6 @@ public class GoogleContactEntry extends GoogleContactBaseEntity<ContactEntry> {
 		if (gName == null) {
 			gName = new GivenName();
 			gName.setImmutable(false);
-			name.setGivenName(gName);
 		}
 		
 		gName.setValue(givenName);
@@ -93,14 +91,9 @@ public class GoogleContactEntry extends GoogleContactBaseEntity<ContactEntry> {
 		if (fName == null) {
 			fName = new FullName();
 			fName.setImmutable(false);
-			name.setFullName(fName);
 		}
 		
 		fName.setValue(fullName);
-	}
-	
-	public String getFullName() {
-		return wrapped.getName() != null && wrapped.getName().getFullName() != null ? wrapped.getName().getFullName().getValue() : null;
 	}
 		
 	// Only getter
