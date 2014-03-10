@@ -6,9 +6,9 @@ This connector will allow you to create and manipulate contacts on the google ap
 Installation and Usage
 ----------------------
 
-For information about usage and installation you can check our documentation at http://mulesoft.github.com/google-connectors-suite/contacts-connector/mule/google-contacts-config-with-oauth.html
+For information about usage and installation you can check our documentation at http://mulesoft.github.com/google-contacts-connector/mule/google-contacts-config-with-oauth.html
 
 Reporting Issues
 ----------------
 
-We use GitHub:Issues for tracking issues with this connector. You can report new issues at this link https://github.com/mulesoft/google-connectors-suite/issues
+We use GitHub:Issues for tracking issues with this connector. You can report new issues at this link https://github.com/mulesoft/google-contacts-connector/issues
