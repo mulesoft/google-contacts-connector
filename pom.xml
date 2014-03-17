@@ -25,8 +25,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.mulesoft.google</groupId>
-			<artifactId>google-api-gdata</artifactId>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-google-api-gdata</artifactId>
 			<version>${google.commons.version}</version>
 		</dependency>
 	</dependencies>
