@@ -8,9 +8,7 @@ import org.mule.api.lifecycle.Initialisable;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.api.lifecycle.Startable;
 import org.mule.api.lifecycle.Stoppable;
-import org.mule.common.MuleVersion;
 import org.mule.config.MuleManifest;
-import org.mule.config.i18n.CoreMessages;
 import org.mule.modules.google.contact.GoogleContactsConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * A <code>GoogleContactsConnectorLifecycleAdapter</code> is a wrapper around {@link GoogleContactsConnector } that adds lifecycle methods to the pojo.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.5.0-M4", date = "2014-03-26T12:34:14-05:00", comments = "Build M4.1875.17b58a3")
+@Generated(value = "Mule DevKit Version 3.4.3", date = "2014-03-26T12:38:00-05:00", comments = "Build 3.4.3.1620.30ea288")
 public class GoogleContactsConnectorLifecycleAdapter
     extends GoogleContactsConnectorMetadataAdapater
     implements Disposable, Initialisable, Startable, Stoppable
@@ -31,7 +29,6 @@ public class GoogleContactsConnectorLifecycleAdapter
     public void start()
         throws MuleException
     {
-        super.init();
     }
 
     @Override
@@ -45,10 +42,29 @@ public class GoogleContactsConnectorLifecycleAdapter
         throws InitialisationException
     {
         Logger log = LoggerFactory.getLogger(GoogleContactsConnectorLifecycleAdapter.class);
-        MuleVersion connectorVersion = new MuleVersion("3.5");
-        MuleVersion muleVersion = new MuleVersion(MuleManifest.getProductVersion());
-        if (!muleVersion.atLeastBase(connectorVersion)) {
-            throw new InitialisationException(CoreMessages.minMuleVersionNotMet(this.getMinMuleVersion()), this);
+        String runtimeVersion = MuleManifest.getProductVersion();
+        if (runtimeVersion.equals("Unknown")) {
+            log.warn("Unknown Mule runtime version. This module may not work properly!");
+        } else {
+            String[] expectedMinVersion = "3.4".split("\\.");
+            if (runtimeVersion.contains("-")) {
+                runtimeVersion = runtimeVersion.split("-")[ 0 ];
+            }
+            String[] currentRuntimeVersion = runtimeVersion.split("\\.");
+            for (int i = 0; (i<expectedMinVersion.length); i ++) {
+                try {
+                    if (Integer.parseInt(currentRuntimeVersion[i])>Integer.parseInt(expectedMinVersion[i])) {
+                        break;
+                    }
+                    if (Integer.parseInt(currentRuntimeVersion[i])<Integer.parseInt(expectedMinVersion[i])) {
+                        throw new RuntimeException("This module requires at least Mule 3.4");
+                    }
+                } catch (NumberFormatException nfe) {
+                    log.warn("Error parsing Mule version, cannot validate current Mule version");
+                } catch (ArrayIndexOutOfBoundsException iobe) {
+                    log.warn("Error parsing Mule version, cannot validate current Mule version");
+                }
+            }
         }
     }
 

@@ -66,49 +66,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -257,6 +214,10 @@
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/agents/package-summary.html">org.mule.modules.google.contact.agents</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../../java/org/mule/modules/google/contact/basic/package-summary.html">org.mule.modules.google.contact.basic</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../java/org/mule/modules/google/contact/callback/package-summary.html">org.mule.modules.google.contact.callback</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/config/package-summary.html">org.mule.modules.google.contact.config</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/connection/package-summary.html">org.mule.modules.google.contact.connection</a></li>
@@ -265,9 +226,9 @@
     <li class="selected api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/oauth/package-summary.html">org.mule.modules.google.contact.oauth</a></li>
     <li class="api apilevel-">
-  <a href="../../../../../../../java/org/mule/modules/google/contact/processors/package-summary.html">org.mule.modules.google.contact.processors</a></li>
+  <a href="../../../../../../../java/org/mule/modules/google/contact/process/package-summary.html">org.mule.modules.google.contact.process</a></li>
     <li class="api apilevel-">
-  <a href="../../../../../../../java/org/mule/modules/google/contact/transformer/package-summary.html">org.mule.modules.google.contact.transformer</a></li>
+  <a href="../../../../../../../java/org/mule/modules/google/contact/processors/package-summary.html">org.mule.modules.google.contact.processors</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/wrappers/package-summary.html">org.mule.modules.google.contact.wrappers</a></li>
     <li class="api apilevel-">
@@ -278,17 +239,40 @@
           <div id="classes-nav">
             <ul>
               
+    <li><h2>Interfaces</h2>
+      <ul>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuth1Adapter.html">OAuth1Adapter</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuth2Adapter.html">OAuth2Adapter</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthManager.html">OAuthManager</a>&lt;C&nbsp;extends&nbsp;<a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a>&gt;</li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/RestoreAccessTokenCallback.html">RestoreAccessTokenCallback</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/SaveAccessTokenCallback.html">SaveAccessTokenCallback</a></li>
+      </ul>
+    </li>
               
     <li><h2>Classes</h2>
       <ul>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ExtractAuthorizationCodeMessageProcessor.html">ExtractAuthorizationCodeMessageProcessor</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/FetchAccessTokenMessageProcessor.html">FetchAccessTokenMessageProcessor</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthClientFactory.html">GoogleContactsConnectorOAuthClientFactory</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthManager.html">GoogleContactsConnectorOAuthManager</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthState.html">GoogleContactsConnectorOAuthState</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessInterceptor.html">ManagedAccessTokenProcessInterceptor</a>&lt;T&gt;</li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessTemplate.html">ManagedAccessTokenProcessTemplate</a>&lt;P&gt;</li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthProcessTemplate.html">OAuthProcessTemplate</a>&lt;P&gt;</li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/RefreshTokenProcessInterceptor.html">RefreshTokenProcessInterceptor</a>&lt;T&gt;</li>
       </ul>
     </li>
               
               
               
+    <li><h2>Exceptions</h2>
+      <ul>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/NotAuthorizedException.html">NotAuthorizedException</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/UnableToAcquireAccessTokenException.html">UnableToAcquireAccessTokenException</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/UnableToAcquireRequestTokenException.html">UnableToAcquireRequestTokenException</a></li>
+      </ul>
+    </li>
               
             </ul><br/>
           </div><!-- end classes -->
@@ -349,6 +333,38 @@
 
 
   
+    <h2>Interfaces</h2>
+    <div class="jd-sumtable">
+    
+  <table class="jd-sumtable-expando">
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuth1Adapter.html">OAuth1Adapter</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuth2Adapter.html">OAuth2Adapter</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthManager.html">OAuthManager</a>&lt;C&nbsp;extends&nbsp;<a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a>&gt;</td>
+              <td class="jd-descrcol" width="100%">Wrapper around org.mule.api.annotations.oauth.OAuth annotated class that will infuse it with
+ access token management capabilities.&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/RestoreAccessTokenCallback.html">RestoreAccessTokenCallback</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/SaveAccessTokenCallback.html">SaveAccessTokenCallback</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+  </table>
+    </div>
+  
 
 
   
@@ -356,6 +372,14 @@
     <div class="jd-sumtable">
     
   <table class="jd-sumtable-expando">
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ExtractAuthorizationCodeMessageProcessor.html">ExtractAuthorizationCodeMessageProcessor</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/FetchAccessTokenMessageProcessor.html">FetchAccessTokenMessageProcessor</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
         <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthClientFactory.html">GoogleContactsConnectorOAuthClientFactory</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
@@ -370,6 +394,22 @@
  
 &nbsp;</td>
           </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessInterceptor.html">ManagedAccessTokenProcessInterceptor</a>&lt;T&gt;</td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessTemplate.html">ManagedAccessTokenProcessTemplate</a>&lt;P&gt;</td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/OAuthProcessTemplate.html">OAuthProcessTemplate</a>&lt;P&gt;</td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/RefreshTokenProcessInterceptor.html">RefreshTokenProcessInterceptor</a>&lt;T&gt;</td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
   </table>
     </div>
   
@@ -378,6 +418,29 @@
   
 
 
+  
+    <h2>Exceptions</h2>
+    <div class="jd-sumtable">
+    
+  <table class="jd-sumtable-expando">
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/NotAuthorizedException.html">NotAuthorizedException</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/UnableToAcquireAccessTokenException.html">UnableToAcquireAccessTokenException</a></td>
+              <td class="jd-descrcol" width="100%">Exception thrown when the access token needed for accessing a protected resource cannot be acquired
+ 
+&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/oauth/UnableToAcquireRequestTokenException.html">UnableToAcquireRequestTokenException</a></td>
+              <td class="jd-descrcol" width="100%">Exception thrown when the request token needed for building the authorization URL cannot be acquired
+ 
+&nbsp;</td>
+          </tr>
+  </table>
+    </div>
   
 
 
