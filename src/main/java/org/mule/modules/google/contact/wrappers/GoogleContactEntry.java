@@ -18,19 +18,7 @@ import com.google.gdata.data.DateTime;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.Person;
 import com.google.gdata.data.TextConstruct;
-import com.google.gdata.data.contacts.BillingInformation;
-import com.google.gdata.data.contacts.Birthday;
-import com.google.gdata.data.contacts.CalendarLink;
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.data.contacts.Event;
-import com.google.gdata.data.contacts.Gender;
-import com.google.gdata.data.contacts.Hobby;
-import com.google.gdata.data.contacts.Language;
-import com.google.gdata.data.contacts.Occupation;
-import com.google.gdata.data.contacts.Relation;
-import com.google.gdata.data.contacts.Subject;
-import com.google.gdata.data.contacts.UserDefinedField;
-import com.google.gdata.data.contacts.Website;
+import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.ExtendedProperty;
 import com.google.gdata.data.extensions.FamilyName;
@@ -300,14 +288,6 @@ public class GoogleContactEntry extends GoogleContactBaseEntity<ContactEntry> {
 		return wrapped.getRights();
 	}
 	
-	public void setService(Service service) {
-		wrapped.setService(service);
-	}
-	
-	public Service getService() {
-		return wrapped.getService();
-	}
-	
 	public void setStructuredPostalAddresses(List<StructuredPostalAddress> structuredPostalAddresses) {
 		if (structuredPostalAddresses != null) {
 			for (StructuredPostalAddress spa : structuredPostalAddresses) {
@@ -359,4 +339,12 @@ public class GoogleContactEntry extends GoogleContactBaseEntity<ContactEntry> {
 	public List<Website> getWebsites() {
 		return wrapped.getWebsites();
 	}
+
+    public boolean hasGroupMembershipInfos() {
+        return wrapped.hasGroupMembershipInfos();
+    }
+
+    public List<GroupMembershipInfo> getGroupMembershipInfos() {
+        return wrapped.getGroupMembershipInfos();
+    }
 }

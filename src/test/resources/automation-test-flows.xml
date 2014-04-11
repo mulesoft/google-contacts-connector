@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:google-contacts="http://www.mulesoft.org/schema/mule/google-contacts"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns="http://www.mulesoft.org/schema/mule/core" version="EE-3.5.0"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+      http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+      http://www.mulesoft.org/schema/mule/google-contacts http://www.mulesoft.org/schema/mule/google-contacts/current/mule-google-contacts.xsd">
+
+    <context:property-placeholder location="${GOOGLE_CONTACTS_CREDENTIALS}"/>
+
+    <google-contacts:config-with-oauth name="Google_Contacts" consumerKey="${google.contacts.consumer.key}"
+                                       consumerSecret="${google.contacts.consumer.secret}" doc:name="Google Contacts"
+                                       applicationName="${google.contacts.application.name}">
+        <google-contacts:oauth-callback-config domain="${google.contacts.domain}"
+                                               localPort="${google.contacts.localPort}"
+                                               remotePort="${google.contacts.remotePort}"
+                                               path="${google.contacts.path}"/>
+    </google-contacts:config-with-oauth>
+
+    <flow name="add-group" doc:name="add-group">
+        <google-contacts:add-group groupId="#[payload.groupId]" contact-ref="#[payload.contactRef]"
+                                   config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="batch-contacts" doc:name="batch-contacts">
+        <google-contacts:batch-contacts config-ref="Google_Contacts" accessTokenId="accessTokenId">
+            <google-contacts:batch-delete operationId="delete" entries-ref="#[payload.contactsRef]"
+                                          config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+        </google-contacts:batch-contacts>
+    </flow>
+
+    <flow name="batch-delete" doc:name="batch-delete">
+        <google-contacts:batch-contacts config-ref="Google_Contacts" accessTokenId="accessTokenId">
+            <google-contacts:batch-delete operationId="delete" entries-ref="#[payload.contactsRef]"
+                                          config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+        </google-contacts:batch-contacts>
+    </flow>
+
+    <flow name="batch-groups" doc:name="batch-groups">
+        <google-contacts:batch-groups config-ref="Google_Contacts" accessTokenId="accessTokenId">
+            <google-contacts:batch-delete operationId="delete" entries-ref="#[payload.groupsRef]"
+                                          config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+        </google-contacts:batch-groups>
+    </flow>
+
+    <flow name="batch-insert" doc:name="batch-insert">
+        <google-contacts:batch-contacts config-ref="Google_Contacts" accessTokenId="accessTokenId">
+            <google-contacts:batch-insert operationId="insert" entries-ref="#[payload.contactsRef]"
+                                          config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+        </google-contacts:batch-contacts>
+    </flow>
+
+    <flow name="batch-update" doc:name="batch-update">
+        <google-contacts:batch-contacts config-ref="Google_Contacts" accessTokenId="accessTokenId">
+            <google-contacts:batch-update operationId="update" entries-ref="#[payload.contactsRef]"
+                                          config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+        </google-contacts:batch-contacts>
+    </flow>
+
+    <flow name="create-group" doc:name="create-group">
+        <google-contacts:create-group group-ref="#[payload.groupRef]"
+                                      config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-contact" doc:name="delete-contact">
+        <google-contacts:delete-contact contact-ref="#[payload.contactRef]"
+                                        config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-contact-by-id" doc:name="delete-contact-by-id">
+        <google-contacts:delete-contact-by-id contactId="#[payload.id]"
+                                              config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-contact-photo" doc:name="delete-contact-photo">
+        <google-contacts:delete-contact-photo contact-ref="#[payload.contactRef]"
+                                              config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-contact-photo-by-id" doc:name="delete-contact-photo-by-id">
+        <google-contacts:delete-contact-photo-by-id contactId="#[payload.id]"
+                                                    config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-group" doc:name="delete-group">
+        <google-contacts:delete-group group-ref="#[payload.groupRef]"
+                                      config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="delete-group-by-id" doc:name="delete-group-by-id">
+        <google-contacts:delete-group-by-id groupId="#[payload.id]"
+                                            config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="download-photo" doc:name="download-photo">
+        <google-contacts:download-photo contact-ref="#[payload.contactRef]"
+                                        config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="download-photo-by-id" doc:name="download-photo-by-id">
+        <google-contacts:download-photo-by-id id="#[payload.id]"
+                                              config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="get-contact-by-id" doc:name="get-contact-by-id">
+        <google-contacts:get-contact-by-id id="#[payload.id]"
+                                           config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="get-contacts" doc:name="get-contacts">
+        <google-contacts:get-contacts config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="get-group-by-id" doc:name="get-group-by-id">
+        <google-contacts:get-group-by-id id="#[payload.id]"
+                                         config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="get-group-by-name" doc:name="get-group-by-name">
+        <google-contacts:get-group-by-name groupName="#[payload.name]"
+                                           config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="get-groups" doc:name="get-groups">
+        <google-contacts:get-groups config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="insert-contact" doc:name="insert-contact">
+        <google-contacts:insert-contact contact-ref="#[payload.contactRef]"
+                                        config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="update-contact" doc:name="update-contact">
+        <google-contacts:update-contact contact-ref="#[payload.contactRef]"
+                                        config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="update-contact-photo" doc:name="update-contact-photo">
+        <google-contacts:update-contact-photo contactId="#[payload.id]" in-ref="#[payload.image]"
+                                              config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+
+    <flow name="update-group" doc:name="update-group">
+        <google-contacts:update-group group-ref="#[payload.groupRef]"
+                                      config-ref="Google_Contacts" accessTokenId="accessTokenId"/>
+    </flow>
+</mule>
