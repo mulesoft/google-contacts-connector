@@ -26,7 +26,7 @@ import org.mule.security.oauth.OnNoTokenPolicy;
  * A {@code GoogleContactsConnectorOAuth2Adapter} is a wrapper around {@link GoogleContactsConnector } that adds OAuth capabilites to the pojo.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:24:16-05:00", comments = "Build master.1915.dd1962d")
+@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:31:06-05:00", comments = "Build master.1915.dd1962d")
 public class GoogleContactsConnectorOAuth2Adapter
     extends GoogleContactsConnectorProcessAdapter
     implements OAuth2Adapter, OAuth2Connector
