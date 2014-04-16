@@ -50,6 +50,7 @@ import org.mule.modules.google.AccessType;
 import org.mule.modules.google.ForcePrompt;
 import org.mule.modules.google.GoogleUserIdExtractor;
 import org.mule.modules.google.api.domain.BatchResult;
+import org.mule.modules.google.api.pagination.TokenBasedPagingDelegate;
 import org.mule.modules.google.api.util.DateTimeUtils;
 import org.mule.modules.google.contact.transformer.BatchResultToBulkOperationTransformer;
 import org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity;
@@ -80,6 +81,7 @@ import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.util.ContentType;
 import com.google.gdata.util.ServiceException;
+import org.mule.streaming.ProviderAwarePagingDelegate;
 
 /**
  * Cloud connector for the Google Contacts API v3 using OAuth2 for initialization.
@@ -214,7 +216,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	@Paged
-	public PagingDelegate<GoogleContactEntry> getContacts(
+	public ProviderAwarePagingDelegate<GoogleContactEntry, AbstractGoogleOAuthConnector> getContacts(
 									final @Optional String updatedMin,
 									final @Optional String updatedMax,
 									final @Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat,
@@ -224,57 +226,48 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 									final @Optional @Default("NONE") OrderBy orderBy,
 									final @Optional String groupId,
 									final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
-		
-		return new PagingDelegate<GoogleContactEntry>() {
-			
-			private int start = 1;
-			
-			@Override
-			public List<GoogleContactEntry> getPage() {
-				ContactQuery query = new ContactQuery(contactFeedURL);
-				
-				if (updatedMax != null) {
-					query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
-				}
-				
-				if (updatedMin != null) {
-					query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
-				}
-				
-				query.setFullTextQuery(fullTextQuery);
-				query.setMaxResults(pagingConfiguration.getFetchSize());
-				query.setStartIndex(this.start);
-				
-				query.setShowDeleted(showDeleted);
-				query.setOrderBy(orderBy);
-				query.setGroup(groupId);
-				query.setSortOrder(sortOrder);
-				
-				List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
-				
-				try {
-					for (ContactEntry entry : getService().getFeed(query, ContactFeed.class).getEntries()) {
-						entriesResult.add(new GoogleContactEntry(entry));
-					}
-					
-					this.start += pagingConfiguration.getFetchSize();
-					
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-				
-				return entriesResult;
-			}
-			
-			@Override
-			public int getTotalResults() {
-				return -1;
-			}
-			
-			@Override
-			public void close() throws MuleException {}
-			
-		};
+
+        return new TokenBasedPagingDelegate<GoogleContactEntry>() {
+            private int start = 1;
+
+            @Override
+            protected List<GoogleContactEntry> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException {
+                ContactQuery query = new ContactQuery(contactFeedURL);
+
+                if (updatedMax != null) {
+                    query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
+                }
+
+                if (updatedMin != null) {
+                    query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
+                }
+
+                query.setFullTextQuery(fullTextQuery);
+                query.setMaxResults(pagingConfiguration.getFetchSize());
+                query.setStartIndex(this.start);
+
+                query.setShowDeleted(showDeleted);
+                query.setOrderBy(orderBy);
+                query.setGroup(groupId);
+                query.setSortOrder(sortOrder);
+
+                List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
+
+                try {
+                    ContactsService contactsService = (ContactsService)connector.getClient();
+                    for (ContactEntry entry : contactsService.getFeed(query, ContactFeed.class).getEntries()) {
+                        entriesResult.add(new GoogleContactEntry(entry));
+                    }
+
+                    this.start += pagingConfiguration.getFetchSize();
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                return entriesResult;
+            }
+        };
 	}
 	
 	/**
@@ -532,54 +525,47 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
 	@Paged
-	public PagingDelegate<GoogleContactGroupEntry> getGroups(
+	public ProviderAwarePagingDelegate<GoogleContactGroupEntry, AbstractGoogleOAuthConnector> getGroups(
 											final @Optional String updatedMin,
 											final @Optional String updatedMax,
 											final @Optional @Default(DateTimeUtils.RFC3339) String datetimeFormat,
 											final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
-		return new PagingDelegate<GoogleContactGroupEntry>() {
-			
-			private int start = 1;
-			
-			@Override
-			public List<GoogleContactGroupEntry> getPage() {
-				ContactQuery query = new ContactQuery(groupFeedURL);
-				
-				if (updatedMax != null) {
-					query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
-				}
-				
-				if (updatedMin != null) {
-					query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
-				}
-				
-				query.setStartIndex(this.start);
-				query.setMaxResults(pagingConfiguration.getFetchSize());
-				
-				List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
-				
-				try {
-					for (ContactGroupEntry cge : getService().getFeed(query, ContactGroupFeed.class).getEntries()) {
-						listResult.add(new GoogleContactGroupEntry(cge));
-					}
-					
-					this.start += pagingConfiguration.getFetchSize();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-				
-				return listResult;
-			}
-			
-			@Override
-			public int getTotalResults() {
-				return -1;
-			}
-			
-			@Override
-			public void close() throws MuleException {}
-			
-		};
+
+        return new TokenBasedPagingDelegate<GoogleContactGroupEntry>() {
+            private int start = 1;
+
+            @Override
+            protected List<GoogleContactGroupEntry> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException {
+                ContactQuery query = new ContactQuery(groupFeedURL);
+
+                if (updatedMax != null) {
+                    query.setUpdatedMax(DateTimeUtils.parseDateTime(updatedMax, datetimeFormat, null));
+                }
+
+                if (updatedMin != null) {
+                    query.setUpdatedMin(DateTimeUtils.parseDateTime(updatedMin, datetimeFormat, null));
+                }
+
+                query.setStartIndex(this.start);
+                query.setMaxResults(pagingConfiguration.getFetchSize());
+
+                List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
+
+                try {
+                    ContactsService contactsService = (ContactsService)connector.getClient();
+                    for (ContactGroupEntry cge : contactsService.getFeed(query, ContactGroupFeed.class).getEntries()) {
+                        listResult.add(new GoogleContactGroupEntry(cge));
+                    }
+
+                    this.start += pagingConfiguration.getFetchSize();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                return listResult;
+
+            }
+        };
 	}
 	
 	/**
@@ -595,10 +581,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	@Processor
 	@OAuthProtected
 	@OAuthInvalidateAccessTokenOn(exception=OAuthTokenExpiredException.class)
-	public GoogleContactGroupEntry getGroupByName(String groupName) throws IOException, ServiceException {
-		PagingDelegate<GoogleContactGroupEntry> delegate = this.getGroups(null, null, null, new PagingConfiguration(100));
+	public GoogleContactGroupEntry getGroupByName(String groupName) throws Exception {
+		ProviderAwarePagingDelegate<GoogleContactGroupEntry, AbstractGoogleOAuthConnector> delegate = this.getGroups(null, null, null, new PagingConfiguration(100));
 		
-		List<GoogleContactGroupEntry> groups = delegate.getPage();
+		List<GoogleContactGroupEntry> groups = delegate.getPage(this);
 		while (!CollectionUtils.isEmpty(groups)) {
 			for (GoogleContactGroupEntry group : groups) {
 				if (group.getPlainTextContent().equals(groupName)) {
@@ -606,7 +592,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 				}
 			}
 			
-			groups = delegate.getPage();
+			groups = delegate.getPage(this);
 		}
 		
 		return null;
@@ -974,4 +960,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 		this.accessToken = accessToken;
 	}
 
+    public Object getClient(){
+        return this.getService();
+    }
 }
