@@ -36,7 +36,7 @@ import org.mule.security.oauth.callback.ProcessCallback;
  * DeleteContactMessageProcessor invokes the {@link org.mule.modules.google.contact.GoogleContactsConnector#deleteContact(org.mule.modules.google.contact.wrappers.GoogleContactEntry)} method in {@link GoogleContactsConnector }. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:20:40-05:00", comments = "Build master.1915.dd1962d")
+@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:24:16-05:00", comments = "Build master.1915.dd1962d")
 public class DeleteContactMessageProcessor
     extends AbstractConnectedProcessor
     implements MessageProcessor, OperationMetaDataEnabled
