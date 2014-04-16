@@ -66,6 +66,49 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -155,7 +198,7 @@
       <a href="http://www.mulesoft.com" tabindex="-1">
       <img src="../assets//images/mulesoft-logo-final.gif" alt="MuleSoft" border="0" id="mulesoftlogo"></a><br/>
       
-  <div id="search" >
+  <div id="searchContainer" >
       <div id="searchForm">
           <form accept-charset="utf-8" class="gsc-search-box" 
                 onsubmit="return submit_search()">
@@ -213,10 +256,6 @@
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/agents/package-summary.html">org.mule.modules.google.contact.agents</a></li>
     <li class="api apilevel-">
-  <a href="../java/org/mule/modules/google/contact/basic/package-summary.html">org.mule.modules.google.contact.basic</a></li>
-    <li class="api apilevel-">
-  <a href="../java/org/mule/modules/google/contact/callback/package-summary.html">org.mule.modules.google.contact.callback</a></li>
-    <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/config/package-summary.html">org.mule.modules.google.contact.config</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/connection/package-summary.html">org.mule.modules.google.contact.connection</a></li>
@@ -225,9 +264,9 @@
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/oauth/package-summary.html">org.mule.modules.google.contact.oauth</a></li>
     <li class="api apilevel-">
-  <a href="../java/org/mule/modules/google/contact/process/package-summary.html">org.mule.modules.google.contact.process</a></li>
-    <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/processors/package-summary.html">org.mule.modules.google.contact.processors</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/modules/google/contact/transformer/package-summary.html">org.mule.modules.google.contact.transformer</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/google/contact/wrappers/package-summary.html">org.mule.modules.google.contact.wrappers</a></li>
     <li class="api apilevel-">
@@ -283,14 +322,9 @@
     <a href="#letter_B">B</a>
     <a href="#letter_C">C</a>
     <a href="#letter_D">D</a>
-    <a href="#letter_E">E</a>
     <a href="#letter_F">F</a>
     <a href="#letter_G">G</a>
-    <a href="#letter_H">H</a>
     <a href="#letter_I">I</a>
-    <a href="#letter_M">M</a>
-    <a href="#letter_N">N</a>
-    <a href="#letter_O">O</a>
     <a href="#letter_P">P</a>
     <a href="#letter_R">R</a>
     <a href="#letter_S">S</a>
@@ -310,31 +344,7 @@
     
     
         <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.ParseDelegate.html">AbstractDefinitionParser.ParseDelegate</a>&lt;T&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/AbstractExpressionEvaluator.html">AbstractExpressionEvaluator</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/AbstractListeningMessageProcessor.html">AbstractListeningMessageProcessor</a>&lt;O&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/AbstractMessageProcessor.html">AbstractMessageProcessor</a>&lt;O&gt;</td>
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/AbstractPagedConnectedProcessor.html">AbstractPagedConnectedProcessor</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
@@ -425,12 +435,18 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/BatchUpdateDefinitionParser.html">BatchUpdateDefinitionParser</a></td>
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/transformer/BatchResultToBulkOperationTransformer.html">BatchResultToBulkOperationTransformer</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
         <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/BatchUpdateDefinitionParser.html">BatchUpdateDefinitionParser</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/BatchUpdateMessageProcessor.html">BatchUpdateMessageProcessor</a></td>
             <td class="jd-descrcol" width="100%">BatchUpdateMessageProcessor invokes the org.mule.modules.google.contact.GoogleContactsConnector#batchUpdate(org.mule.api.MuleMessage, java.lang.String, java.util.Collection<org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity<?>>) method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
         </tr>
@@ -441,18 +457,6 @@
 
 <h2 id="letter_C">C</h2>
 <table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/basic/Capabilities.html">Capabilities</a></td>
-            <td class="jd-descrcol" width="100%">This interface is implemented for every org.mule.api.annotations.Module annotated class, to dynamically query what its capabilities are.&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/basic/Capability.html">Capability</a></td>
-            <td class="jd-descrcol" width="100%">Enumeration of possible capabilities of Mule modules.&nbsp;</td>
-        </tr>
     
     
         <tr class="alt-color api apilevel-" >
@@ -468,24 +472,32 @@
     
     
         <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/ConnectivityProcessor.html">ConnectivityProcessor</a></td>
+            <td class="jd-descrcol" width="100%">Interface used to unify all message processors (those which use (or not) pagination) from the ManagedConnectionProcessInterceptor
+ 
+&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/com/google/gdata/client/contacts/transformers/ContactQueryOrderByEnumTransformer.html">ContactQueryOrderByEnumTransformer</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/com/google/gdata/client/contacts/transformers/ContactQuerySortOrderEnumTransformer.html">ContactQuerySortOrderEnumTransformer</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/CreateGroupDefinitionParser.html">CreateGroupDefinitionParser</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/CreateGroupMessageProcessor.html">CreateGroupMessageProcessor</a></td>
             <td class="jd-descrcol" width="100%">CreateGroupMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#createGroup(org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry)">createGroup(org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
         </tr>
@@ -496,18 +508,6 @@
 
 <h2 id="letter_D">D</h2>
 <table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/DefaultHttpCallback.html">DefaultHttpCallback</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/DefaultHttpCallback.FlowRefMessageProcessor.html">DefaultHttpCallback.FlowRefMessageProcessor</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
     
     
         <tr class="alt-color api apilevel-" >
@@ -617,30 +617,11 @@
 </table>
 
 
-<h2 id="letter_E">E</h2>
-<table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/ExtractAuthorizationCodeMessageProcessor.html">ExtractAuthorizationCodeMessageProcessor</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-</table>
-
-
 <h2 id="letter_F">F</h2>
 <table class="jd-sumtable">
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/FetchAccessTokenMessageProcessor.html">FetchAccessTokenMessageProcessor</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/transformers/ForcePromptEnumTransformer.html">ForcePromptEnumTransformer</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
@@ -673,7 +654,7 @@
     
         <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/GetContactsMessageProcessor.html">GetContactsMessageProcessor</a></td>
-            <td class="jd-descrcol" width="100%">GetContactsMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#getContacts(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int, com.google.gdata.client.contacts.ContactQuery.SortOrder, java.lang.Boolean, com.google.gdata.client.contacts.ContactQuery.OrderBy, java.lang.String)">getContacts(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int, com.google.gdata.client.contacts.ContactQuery.SortOrder, java.lang.Boolean, com.google.gdata.client.contacts.ContactQuery.OrderBy, java.lang.String)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
+            <td class="jd-descrcol" width="100%">GetContactsMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#getContacts(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.google.gdata.client.contacts.ContactQuery.SortOrder, java.lang.Boolean, com.google.gdata.client.contacts.ContactQuery.OrderBy, java.lang.String, org.mule.streaming.PagingConfiguration)">getContacts(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.google.gdata.client.contacts.ContactQuery.SortOrder, java.lang.Boolean, com.google.gdata.client.contacts.ContactQuery.OrderBy, java.lang.String, org.mule.streaming.PagingConfiguration)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
         </tr>
     
     
@@ -709,7 +690,7 @@
     
         <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/GetGroupsMessageProcessor.html">GetGroupsMessageProcessor</a></td>
-            <td class="jd-descrcol" width="100%">GetGroupsMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#getGroups(java.lang.String, java.lang.String, java.lang.String)">getGroups(java.lang.String, java.lang.String, java.lang.String)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
+            <td class="jd-descrcol" width="100%">GetGroupsMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#getGroups(java.lang.String, java.lang.String, java.lang.String, org.mule.streaming.PagingConfiguration)">getGroups(java.lang.String, java.lang.String, java.lang.String, org.mule.streaming.PagingConfiguration)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
         </tr>
     
     
@@ -750,42 +731,36 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapters/GoogleContactsConnectorHttpCallbackAdapter.html">GoogleContactsConnectorHttpCallbackAdapter</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapters/GoogleContactsConnectorLifecycleAdapter.html">GoogleContactsConnectorLifecycleAdapter</a></td>
             <td class="jd-descrcol" width="100%">A <code>GoogleContactsConnectorLifecycleAdapter</code> is a wrapper around <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code> that adds lifecycle methods to the pojo.&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapters/GoogleContactsConnectorMetadataAdapater.html">GoogleContactsConnectorMetadataAdapater</a></td>
             <td class="jd-descrcol" width="100%">A <code>GoogleContactsConnectorMetadataAdapater</code> is a wrapper around <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code> that adds support for querying metadata about the extension.&nbsp;</td>
         </tr>
     
     
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapters/GoogleContactsConnectorOAuth2Adapter.html">GoogleContactsConnectorOAuth2Adapter</a></td>
             <td class="jd-descrcol" width="100%">A <code>GoogleContactsConnectorOAuth2Adapter</code> is a wrapper around <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code> that adds OAuth capabilites to the pojo.&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthClientFactory.html">GoogleContactsConnectorOAuthClientFactory</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthManager.html">GoogleContactsConnectorOAuthManager</a></td>
             <td class="jd-descrcol" width="100%">A <code>GoogleContactsConnectorOAuthManager</code> is a wrapper around <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code> that adds access token management capabilities to the pojo.&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/GoogleContactsConnectorOAuthState.html">GoogleContactsConnectorOAuthState</a></td>
             <td class="jd-descrcol" width="100%">Serializable class used to save and restore OAuth state from <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>
  
@@ -793,34 +768,15 @@
         </tr>
     
     
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapters/GoogleContactsConnectorProcessAdapter.html">GoogleContactsConnectorProcessAdapter</a></td>
             <td class="jd-descrcol" width="100%">A <code>GoogleContactsConnectorProcessAdapter</code> is a wrapper around <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code> that enables custom processing strategies.&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/GoogleContactsNamespaceHandler.html">GoogleContactsNamespaceHandler</a></td>
             <td class="jd-descrcol" width="100%">Registers bean definitions parsers for handling elements in <code>http://www.mulesoft.org/schema/mule/google-contacts</code>.&nbsp;</td>
-        </tr>
-    
-    
-</table>
-
-
-<h2 id="letter_H">H</h2>
-<table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/callback/HttpCallback.html">HttpCallback</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/adapter/HttpCallbackAdapter.html">HttpCallbackAdapter</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
@@ -832,102 +788,14 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/transformers/IdentifierPolicyEnumTransformer.html">IdentifierPolicyEnumTransformer</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/InsertContactDefinitionParser.html">InsertContactDefinitionParser</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/processors/InsertContactMessageProcessor.html">InsertContactMessageProcessor</a></td>
             <td class="jd-descrcol" width="100%">InsertContactMessageProcessor invokes the <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html#insertContact(org.mule.modules.google.contact.wrappers.GoogleContactEntry)">insertContact(org.mule.modules.google.contact.wrappers.GoogleContactEntry)</a></code> method in <code><a href="../java/org/mule/modules/google/contact/GoogleContactsConnector.html">GoogleContactsConnector</a></code>.&nbsp;</td>
-        </tr>
-    
-    
-</table>
-
-
-<h2 id="letter_M">M</h2>
-<table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessInterceptor.html">ManagedAccessTokenProcessInterceptor</a>&lt;T&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/ManagedAccessTokenProcessTemplate.html">ManagedAccessTokenProcessTemplate</a>&lt;P&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/basic/MetadataAware.html">MetadataAware</a></td>
-            <td class="jd-descrcol" width="100%">This interface is implemented for every org.mule.api.annotations.Module and org.mule.api.annotations.Connector annotated class and its purpose is to define a contract to query the annotated class about its metadata.&nbsp;</td>
-        </tr>
-    
-    
-</table>
-
-
-<h2 id="letter_N">N</h2>
-<table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/NestedProcessorChain.html">NestedProcessorChain</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/NotAuthorizedException.html">NotAuthorizedException</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-</table>
-
-
-<h2 id="letter_O">O</h2>
-<table class="jd-sumtable">
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/OAuth1Adapter.html">OAuth1Adapter</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/OAuth2Adapter.html">OAuth2Adapter</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a></td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/OAuthManager.html">OAuthManager</a>&lt;C&nbsp;extends&nbsp;<a href="../java/org/mule/modules/google/contact/oauth/OAuthAdapter.html">OAuthAdapter</a>&gt;</td>
-            <td class="jd-descrcol" width="100%">Wrapper around org.mule.api.annotations.oauth.OAuth annotated class that will infuse it with
- access token management capabilities.&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/OAuthProcessTemplate.html">OAuthProcessTemplate</a>&lt;P&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
@@ -944,36 +812,6 @@
         </tr>
     
     
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/ProcessAdapter.html">ProcessAdapter</a>&lt;O&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/ProcessCallback.html">ProcessCallback</a>&lt;T,&nbsp;O&gt;</td>
-            <td class="jd-descrcol" width="100%">Callback with logic to execute within a controlled environment provided by <code><a href="../java/org/mule/modules/google/contact/process/ProcessTemplate.html">ProcessTemplate</a></code>&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/ProcessCallbackProcessInterceptor.html">ProcessCallbackProcessInterceptor</a>&lt;T,&nbsp;O&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/ProcessInterceptor.html">ProcessInterceptor</a>&lt;T,&nbsp;O&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/process/ProcessTemplate.html">ProcessTemplate</a>&lt;T,&nbsp;O&gt;</td>
-            <td class="jd-descrcol" width="100%">ProcessTemplate provides a processing context for message processing.&nbsp;</td>
-        </tr>
-    
-    
 </table>
 
 
@@ -982,13 +820,7 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/RefreshTokenProcessInterceptor.html">RefreshTokenProcessInterceptor</a>&lt;T&gt;</td>
-            <td class="jd-descrcol" width="100%">&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/RestoreAccessTokenCallback.html">RestoreAccessTokenCallback</a></td>
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/RestoreAccessTokenCallbackFactoryBean.html">RestoreAccessTokenCallbackFactoryBean</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
@@ -1001,28 +833,14 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/SaveAccessTokenCallback.html">SaveAccessTokenCallback</a></td>
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/config/SaveAccessTokenCallbackFactoryBean.html">SaveAccessTokenCallbackFactoryBean</a></td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
     
     
         <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/callback/SourceCallback.html">SourceCallback</a></td>
-            <td class="jd-descrcol" width="100%">Callback interface used by org.mule.api.annotations.Source annotated methods to dispatch messages.&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/devkit/SplashScreenAgent.html">SplashScreenAgent</a></td>
             <td class="jd-descrcol" width="100%">Marks DevKit org.mule.api.agent.Agent implementations to take care of logging information at Mule app level mainly for troubleshooting purposes.&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/callback/StopSourceCallback.html">StopSourceCallback</a></td>
-            <td class="jd-descrcol" width="100%">Callback returned by methods that are annotated with @Source
- <p/>
- It will be executed when the MessageSource is being stopped.&nbsp;</td>
         </tr>
     
     
@@ -1034,25 +852,9 @@
     
     
         <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/UnableToAcquireAccessTokenException.html">UnableToAcquireAccessTokenException</a></td>
-            <td class="jd-descrcol" width="100%">Exception thrown when the access token needed for accessing a protected resource cannot be acquired
- 
-&nbsp;</td>
-        </tr>
-    
-    
-        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/connection/UnableToAcquireConnectionException.html">UnableToAcquireConnectionException</a></td>
             <td class="jd-descrcol" width="100%">Exception thrown when the connection needed for executing an
   operation is null.&nbsp;</td>
-        </tr>
-    
-    
-        <tr class="alt-color api apilevel-" >
-            <td class="jd-linkcol"><a href="../java/org/mule/modules/google/contact/oauth/UnableToAcquireRequestTokenException.html">UnableToAcquireRequestTokenException</a></td>
-            <td class="jd-descrcol" width="100%">Exception thrown when the request token needed for building the authorization URL cannot be acquired
- 
-&nbsp;</td>
         </tr>
     
     

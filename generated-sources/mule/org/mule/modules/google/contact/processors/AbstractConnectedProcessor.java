@@ -1,31 +1,30 @@
 
 package org.mule.modules.google.contact.processors;
 
+import java.lang.reflect.Type;
 import javax.annotation.Generated;
+import org.mule.devkit.processor.DevkitBasedMessageProcessor;
 
-@Generated(value = "Mule DevKit Version 3.4.3", date = "2014-03-26T12:38:00-05:00", comments = "Build 3.4.3.1620.30ea288")
+@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:20:40-05:00", comments = "Build master.1915.dd1962d")
 public abstract class AbstractConnectedProcessor
-    extends AbstractExpressionEvaluator
+    extends DevkitBasedMessageProcessor
+    implements ConnectivityProcessor
 {
 
-    private Object accessTokenId;
-    private String _accessTokenIdType;
 
-    /**
-     * Retrieves accessTokenId
-     * 
-     */
-    public Object getAccessTokenId() {
-        return this.accessTokenId;
+    public AbstractConnectedProcessor(String operationName) {
+        super(operationName);
     }
 
     /**
-     * Sets accessTokenId
+     * {@inheritDoc}
      * 
-     * @param value Value to set
      */
-    public void setAccessTokenId(Object value) {
-        this.accessTokenId = value;
+    @Override
+    public Type typeFor(String fieldName)
+        throws NoSuchFieldException
+    {
+        return AbstractConnectedProcessor.class.getDeclaredField(fieldName).getGenericType();
     }
 
 }

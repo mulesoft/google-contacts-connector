@@ -66,6 +66,49 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -154,7 +197,7 @@
       <a href="http://www.mulesoft.com" tabindex="-1">
       <img src="../assets//images/mulesoft-logo-final.gif" alt="MuleSoft" border="0" id="mulesoftlogo"></a><br/>
       
-  <div id="search" >
+  <div id="searchContainer" >
       <div id="searchForm">
           <form accept-charset="utf-8" class="gsc-search-box" 
                 onsubmit="return submit_search()">
@@ -228,7 +271,7 @@
           <th>Schema Version</th><td>1.7.4</td>
         </tr>
 <tr>
-          <th>Minimum Mule Version</th><td>3.4</td>
+          <th>Minimum Mule Version</th><td>3.5</td>
         </tr>
     </tbody></table>
   </div>
@@ -263,6 +306,11 @@ Uses OAuth2 for authentication&lt;/xs:documentation&gt;
                     &lt;xs:attribute name=&quot;async&quot; default=&quot;false&quot; use=&quot;optional&quot; type=&quot;xs:boolean&quot;&gt;&lt;/xs:attribute&gt;
                     &lt;xs:attribute name=&quot;path&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;&lt;/xs:attribute&gt;
                     &lt;xs:attribute name=&quot;connector-ref&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;&lt;/xs:attribute&gt;
+                    &lt;xs:attribute name=&quot;defaultAccessTokenId&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+                      &lt;xs:annotation&gt;
+                        &lt;xs:documentation&gt;A Mule Expression to use as access token id&lt;/xs:documentation&gt;
+                      &lt;/xs:annotation&gt;
+                    &lt;/xs:attribute&gt;
                   &lt;/xs:extension&gt;
                 &lt;/xs:complexContent&gt;
               &lt;/xs:complexType&gt;
@@ -305,17 +353,12 @@ Uses OAuth2 for authentication&lt;/xs:documentation&gt;
               &lt;xs:documentation&gt;The OAuth2 scopes you want to request&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
           &lt;/xs:attribute&gt;
-          &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;identifierPolicy&quot; default=&quot;EMAIL&quot; use=&quot;optional&quot; type=&quot;IdentifierPolicyEnumType&quot;&gt;
+          &lt;xs:attribute name=&quot;accessTokenUrl&quot; default=&quot;https://accounts.google.com/o/oauth2/token&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
             &lt;xs:annotation&gt;
-              &lt;xs:documentation&gt;This policy represents which id we want to use to represent each google account.
-
-PROFILE means that we want the google profile id. That means, the user's primary key in google's DB.
-This is a long number represented as a string.
-
-EMAIL means you want to use the account's email address&lt;/xs:documentation&gt;
+              &lt;xs:documentation&gt;The URL defined by the Service Provider to obtain an access token&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
           &lt;/xs:attribute&gt;
-          &lt;xs:attribute name=&quot;accessTokenUrl&quot; default=&quot;https://accounts.google.com/o/oauth2/token&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+          &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;onNoToken&quot; default=&quot;EXCEPTION&quot; use=&quot;optional&quot; type=&quot;OnNoTokenPolicyEnumType&quot;&gt;
             &lt;xs:annotation&gt;
               &lt;xs:documentation&gt;The URL defined by the Service Provider to obtain an access token&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
@@ -367,6 +410,11 @@ EMAIL means you want to use the account's email address&lt;/xs:documentation&gt;
             &lt;xs:documentation&gt;The URL defined by the Service Provider to obtain an access token&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;accessTokenId&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The Id with which the obtained access token will be stored. If not provided, then it will be the config name&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;authorizationUrl&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;The URL defined by the Service Provider where the resource owner will be redirected to grant authorization to the connector&lt;/xs:documentation&gt;
@@ -407,12 +455,12 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;updatedMin&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the minimum updated timestamp used for the query.  Only entries with an updated timestamp equal to or later than the specified timestamp will be returned.&lt;/xs:documentation&gt;
+            &lt;xs:documentation&gt;Sets the minimum updated timestamp used for the query. Only entries with an updated timestamp equal to or later than the specified timestamp will be returned.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;updatedMax&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the maximum updated timestamp used for the query.  Only entries with an updated timestamp earlier than the specified timestamp will be returned.&lt;/xs:documentation&gt;
+            &lt;xs:documentation&gt;Sets the maximum updated timestamp used for the query. Only entries with an updated timestamp earlier than the specified timestamp will be returned.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;datetimeFormat&quot; default=&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
@@ -423,16 +471,6 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
         &lt;xs:attribute name=&quot;fullTextQuery&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;Sets the full text query string that will be used for the query.&lt;/xs:documentation&gt;
-          &lt;/xs:annotation&gt;
-        &lt;/xs:attribute&gt;
-        &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;maxResults&quot; default=&quot;1000&quot; use=&quot;optional&quot; type=&quot;integerType&quot;&gt;
-          &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the maximum number of results to return for the query.  Note: a GData server may choose to provide fewer results, but will never provide more than the requested maximum.&lt;/xs:documentation&gt;
-          &lt;/xs:annotation&gt;
-        &lt;/xs:attribute&gt;
-        &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;firstResult&quot; default=&quot;1&quot; use=&quot;optional&quot; type=&quot;integerType&quot;&gt;
-          &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the start index for query results.  This is a 1-based index.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
         &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;sortOrder&quot; default=&quot;NONE&quot; use=&quot;optional&quot; type=&quot;SortOrderEnumType&quot;&gt;
@@ -458,6 +496,11 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
         &lt;xs:attribute name=&quot;accessTokenId&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;The id of the access token that will be used to authenticate the call&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;fetchSize&quot; default=&quot;100&quot; use=&quot;optional&quot; type=&quot;integerType&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The amount of items to fetch on each invocation to the data source&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
       &lt;/xs:extension&gt;
@@ -502,7 +545,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the contact to be inserted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -528,7 +571,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the contact to be updated&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -554,7 +597,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the contact to be updated&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -611,7 +654,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;entry-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;entry-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;the contact to be deleted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -663,7 +706,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;the contact whose photo we want&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -694,7 +737,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;the id of the contact whose photo we want to update&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;in-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;in-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;a  with the photo's binary content&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -746,7 +789,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;contact-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the contact whose photo we want deleted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -774,12 +817,12 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;updatedMin&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the minimum updated timestamp used for the query.  Only entries with an updated timestamp equal to or later than the specified timestamp will be returned.&lt;/xs:documentation&gt;
+            &lt;xs:documentation&gt;Sets the minimum updated timestamp used for the query. Only entries with an updated timestamp equal to or later than the specified timestamp will be returned.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;updatedMax&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
-            &lt;xs:documentation&gt;Sets the maximum updated timestamp used for the query.  Only entries with an updated timestamp earlier than the specified timestamp will be returned.&lt;/xs:documentation&gt;
+            &lt;xs:documentation&gt;Sets the maximum updated timestamp used for the query. Only entries with an updated timestamp earlier than the specified timestamp will be returned.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
         &lt;xs:attribute name=&quot;datetimeFormat&quot; default=&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
@@ -790,6 +833,11 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
         &lt;xs:attribute name=&quot;accessTokenId&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;The id of the access token that will be used to authenticate the call&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute xmlns=&quot;http://www.mulesoft.org/schema/mule/google-contacts&quot; name=&quot;fetchSize&quot; default=&quot;100&quot; use=&quot;optional&quot; type=&quot;integerType&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The amount of items to fetch on each invocation to the data source&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
       &lt;/xs:extension&gt;
@@ -860,7 +908,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the group to be inserted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -886,7 +934,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  with the group's new state&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -938,7 +986,7 @@ then it's not used in the filtering. Thus, providing no criteria equals getting 
             &lt;xs:documentation&gt;Specify which configuration to use for this invocation.&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;group-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;an instance of  representing the group to be deleted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -1032,7 +1080,7 @@ likely to throw a&lt;/xs:documentation&gt;
             &lt;xs:documentation&gt;id to identify this particular operation inside the batch&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;a collection with instances of  to be batch inserted&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -1067,7 +1115,7 @@ likely to throw a&lt;/xs:documentation&gt;
             &lt;xs:documentation&gt;id to identify this particular operation inside the batch&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;a collection with instances of  to be batch updated&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -1102,7 +1150,7 @@ likely to throw a&lt;/xs:documentation&gt;
             &lt;xs:documentation&gt;id to identify this particular operation inside the batch&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
         &lt;/xs:attribute&gt;
-        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload:]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;entries-ref&quot; default=&quot;#[payload]&quot; use=&quot;optional&quot; type=&quot;xs:string&quot;&gt;
           &lt;xs:annotation&gt;
             &lt;xs:documentation&gt;a collection with instances of  to be batch updated&lt;/xs:documentation&gt;
           &lt;/xs:annotation&gt;
@@ -1115,19 +1163,24 @@ likely to throw a&lt;/xs:documentation&gt;
       &lt;/xs:extension&gt;
     &lt;/xs:complexContent&gt;
   &lt;/xs:complexType&gt;
-  &lt;xs:simpleType name=&quot;AccessTypeEnumType&quot;&gt;
+  &lt;xs:simpleType name=&quot;OrderByEnumType&quot;&gt;
     &lt;xs:annotation&gt;
       &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
     &lt;/xs:annotation&gt;
     &lt;xs:union&gt;
       &lt;xs:simpleType&gt;
         &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-          &lt;xs:enumeration value=&quot;online&quot;&gt;
+          &lt;xs:enumeration value=&quot;EDITED&quot;&gt;
             &lt;xs:annotation&gt;
               &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
           &lt;/xs:enumeration&gt;
-          &lt;xs:enumeration value=&quot;offline&quot;&gt;
+          &lt;xs:enumeration value=&quot;LAST_MODIFIED&quot;&gt;
+            &lt;xs:annotation&gt;
+              &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
+            &lt;/xs:annotation&gt;
+          &lt;/xs:enumeration&gt;
+          &lt;xs:enumeration value=&quot;NONE&quot;&gt;
             &lt;xs:annotation&gt;
               &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
@@ -1192,19 +1245,19 @@ likely to throw a&lt;/xs:documentation&gt;
       &lt;/xs:simpleType&gt;
     &lt;/xs:union&gt;
   &lt;/xs:simpleType&gt;
-  &lt;xs:simpleType name=&quot;IdentifierPolicyEnumType&quot;&gt;
+  &lt;xs:simpleType name=&quot;AccessTypeEnumType&quot;&gt;
     &lt;xs:annotation&gt;
       &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
     &lt;/xs:annotation&gt;
     &lt;xs:union&gt;
       &lt;xs:simpleType&gt;
         &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-          &lt;xs:enumeration value=&quot;PROFILE&quot;&gt;
+          &lt;xs:enumeration value=&quot;online&quot;&gt;
             &lt;xs:annotation&gt;
               &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
           &lt;/xs:enumeration&gt;
-          &lt;xs:enumeration value=&quot;EMAIL&quot;&gt;
+          &lt;xs:enumeration value=&quot;offline&quot;&gt;
             &lt;xs:annotation&gt;
               &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
             &lt;/xs:annotation&gt;
@@ -1216,28 +1269,12 @@ likely to throw a&lt;/xs:documentation&gt;
       &lt;/xs:simpleType&gt;
     &lt;/xs:union&gt;
   &lt;/xs:simpleType&gt;
-  &lt;xs:simpleType name=&quot;OrderByEnumType&quot;&gt;
-    &lt;xs:annotation&gt;
-      &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
-    &lt;/xs:annotation&gt;
+  &lt;xs:simpleType name=&quot;OnNoTokenPolicyEnumType&quot;&gt;
     &lt;xs:union&gt;
       &lt;xs:simpleType&gt;
         &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-          &lt;xs:enumeration value=&quot;EDITED&quot;&gt;
-            &lt;xs:annotation&gt;
-              &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
-            &lt;/xs:annotation&gt;
-          &lt;/xs:enumeration&gt;
-          &lt;xs:enumeration value=&quot;LAST_MODIFIED&quot;&gt;
-            &lt;xs:annotation&gt;
-              &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
-            &lt;/xs:annotation&gt;
-          &lt;/xs:enumeration&gt;
-          &lt;xs:enumeration value=&quot;NONE&quot;&gt;
-            &lt;xs:annotation&gt;
-              &lt;xs:documentation&gt;&lt;/xs:documentation&gt;
-            &lt;/xs:annotation&gt;
-          &lt;/xs:enumeration&gt;
+          &lt;xs:enumeration value=&quot;EXCEPTION&quot;&gt;&lt;/xs:enumeration&gt;
+          &lt;xs:enumeration value=&quot;STOP_FLOW&quot;&gt;&lt;/xs:enumeration&gt;
         &lt;/xs:restriction&gt;
       &lt;/xs:simpleType&gt;
       &lt;xs:simpleType&gt;

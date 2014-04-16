@@ -2,20 +2,44 @@
 package org.mule.modules.google.contact.config;
 
 import javax.annotation.Generated;
+import org.mule.config.MuleManifest;
 import org.mule.modules.google.contact.processors.GetGroupByNameMessageProcessor;
+import org.mule.security.oauth.config.AbstractDevkitBasedDefinitionParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
+import org.springframework.beans.factory.parsing.Location;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
-@Generated(value = "Mule DevKit Version 3.4.3", date = "2014-03-26T12:38:00-05:00", comments = "Build 3.4.3.1620.30ea288")
+@Generated(value = "Mule DevKit Version 3.5.0-SNAPSHOT", date = "2014-04-16T09:20:40-05:00", comments = "Build master.1915.dd1962d")
 public class GetGroupByNameDefinitionParser
-    extends AbstractDefinitionParser
+    extends AbstractDevkitBasedDefinitionParser
 {
 
+    private static Logger logger = LoggerFactory.getLogger(GetGroupByNameDefinitionParser.class);
+
+    private BeanDefinitionBuilder getBeanDefinitionBuilder(ParserContext parserContext) {
+        try {
+            return BeanDefinitionBuilder.rootBeanDefinition(GetGroupByNameMessageProcessor.class.getName());
+        } catch (NoClassDefFoundError noClassDefFoundError) {
+            String muleVersion = "";
+            try {
+                muleVersion = MuleManifest.getProductVersion();
+            } catch (Exception _x) {
+                logger.error("Problem while reading mule version");
+            }
+            logger.error(("Cannot launch the mule app, the @Processor [get-group-by-name] within the connector [google-contacts] is not supported in mule "+ muleVersion));
+            throw new BeanDefinitionParsingException(new Problem(("Cannot launch the mule app, the @Processor [get-group-by-name] within the connector [google-contacts] is not supported in mule "+ muleVersion), new Location(parserContext.getReaderContext().getResource()), null, noClassDefFoundError));
+        }
+    }
 
     public BeanDefinition parse(Element element, ParserContext parserContext) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(GetGroupByNameMessageProcessor.class.getName());
+        BeanDefinitionBuilder builder = getBeanDefinitionBuilder(parserContext);
+        builder.addConstructorArgValue("getGroupByName");
         builder.setScope(BeanDefinition.SCOPE_PROTOTYPE);
         parseConfigRef(element, builder);
         parseProperty(builder, element, "groupName", "groupName");

@@ -66,6 +66,49 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -156,7 +199,7 @@
       <a href="http://www.mulesoft.com" tabindex="-1">
       <img src="../../../../../../../assets//images/mulesoft-logo-final.gif" alt="MuleSoft" border="0" id="mulesoftlogo"></a><br/>
       
-  <div id="search" >
+  <div id="searchContainer" >
       <div id="searchForm">
           <form accept-charset="utf-8" class="gsc-search-box" 
                 onsubmit="return submit_search()">
@@ -213,10 +256,6 @@
   <a href="../../../../../../../java/org/mule/modules/google/contact/adapters/package-summary.html">org.mule.modules.google.contact.adapters</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/agents/package-summary.html">org.mule.modules.google.contact.agents</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../../../../java/org/mule/modules/google/contact/basic/package-summary.html">org.mule.modules.google.contact.basic</a></li>
-    <li class="api apilevel-">
-  <a href="../../../../../../../java/org/mule/modules/google/contact/callback/package-summary.html">org.mule.modules.google.contact.callback</a></li>
     <li class="selected api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/config/package-summary.html">org.mule.modules.google.contact.config</a></li>
     <li class="api apilevel-">
@@ -226,9 +265,9 @@
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/oauth/package-summary.html">org.mule.modules.google.contact.oauth</a></li>
     <li class="api apilevel-">
-  <a href="../../../../../../../java/org/mule/modules/google/contact/process/package-summary.html">org.mule.modules.google.contact.process</a></li>
-    <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/processors/package-summary.html">org.mule.modules.google.contact.processors</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../java/org/mule/modules/google/contact/transformer/package-summary.html">org.mule.modules.google.contact.transformer</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../java/org/mule/modules/google/contact/wrappers/package-summary.html">org.mule.modules.google.contact.wrappers</a></li>
     <li class="api apilevel-">
@@ -239,15 +278,9 @@
           <div id="classes-nav">
             <ul>
               
-    <li><h2>Interfaces</h2>
-      <ul>
-        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.ParseDelegate.html">AbstractDefinitionParser.ParseDelegate</a>&lt;T&gt;</li>
-      </ul>
-    </li>
               
     <li><h2>Classes</h2>
       <ul>
-        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AddGroupDefinitionParser.html">AddGroupDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AuthorizeDefinitionParser.html">AuthorizeDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchContactsDefinitionParser.html">BatchContactsDefinitionParser</a></li>
@@ -272,6 +305,8 @@
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GoogleContactsConnectorConfigDefinitionParser.html">GoogleContactsConnectorConfigDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GoogleContactsNamespaceHandler.html">GoogleContactsNamespaceHandler</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/InsertContactDefinitionParser.html">InsertContactDefinitionParser</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/RestoreAccessTokenCallbackFactoryBean.html">RestoreAccessTokenCallbackFactoryBean</a></li>
+        <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/SaveAccessTokenCallbackFactoryBean.html">SaveAccessTokenCallbackFactoryBean</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UnauthorizeDefinitionParser.html">UnauthorizeDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UpdateContactDefinitionParser.html">UpdateContactDefinitionParser</a></li>
         <li class="api apilevel-"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UpdateContactPhotoDefinitionParser.html">UpdateContactPhotoDefinitionParser</a></li>
@@ -341,17 +376,6 @@
 
 
   
-    <h2>Interfaces</h2>
-    <div class="jd-sumtable">
-    
-  <table class="jd-sumtable-expando">
-        <tr class="alt-color api apilevel-" >
-              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.ParseDelegate.html">AbstractDefinitionParser.ParseDelegate</a>&lt;T&gt;</td>
-              <td class="jd-descrcol" width="100%">&nbsp;</td>
-          </tr>
-  </table>
-    </div>
-  
 
 
   
@@ -360,118 +384,122 @@
     
   <table class="jd-sumtable-expando">
         <tr class="alt-color api apilevel-" >
-              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AbstractDefinitionParser.html">AbstractDefinitionParser</a></td>
-              <td class="jd-descrcol" width="100%">&nbsp;</td>
-          </tr>
-        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AddGroupDefinitionParser.html">AddGroupDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/AuthorizeDefinitionParser.html">AuthorizeDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchContactsDefinitionParser.html">BatchContactsDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchDeleteDefinitionParser.html">BatchDeleteDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchGroupsDefinitionParser.html">BatchGroupsDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchInsertDefinitionParser.html">BatchInsertDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/BatchUpdateDefinitionParser.html">BatchUpdateDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/CreateGroupDefinitionParser.html">CreateGroupDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteContactByIdDefinitionParser.html">DeleteContactByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteContactDefinitionParser.html">DeleteContactDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteContactPhotoByIdDefinitionParser.html">DeleteContactPhotoByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteContactPhotoDefinitionParser.html">DeleteContactPhotoDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteGroupByIdDefinitionParser.html">DeleteGroupByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DeleteGroupDefinitionParser.html">DeleteGroupDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DownloadPhotoByIdDefinitionParser.html">DownloadPhotoByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/DownloadPhotoDefinitionParser.html">DownloadPhotoDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GetContactByIdDefinitionParser.html">GetContactByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GetContactsDefinitionParser.html">GetContactsDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GetGroupByIdDefinitionParser.html">GetGroupByIdDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GetGroupByNameDefinitionParser.html">GetGroupByNameDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GetGroupsDefinitionParser.html">GetGroupsDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GoogleContactsConnectorConfigDefinitionParser.html">GoogleContactsConnectorConfigDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/GoogleContactsNamespaceHandler.html">GoogleContactsNamespaceHandler</a></td>
               <td class="jd-descrcol" width="100%">Registers bean definitions parsers for handling elements in <code>http://www.mulesoft.org/schema/mule/google-contacts</code>.&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/InsertContactDefinitionParser.html">InsertContactDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
+        <tr class="alt-color api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/RestoreAccessTokenCallbackFactoryBean.html">RestoreAccessTokenCallbackFactoryBean</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
         <tr class=" api apilevel-" >
+              <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/SaveAccessTokenCallbackFactoryBean.html">SaveAccessTokenCallbackFactoryBean</a></td>
+              <td class="jd-descrcol" width="100%">&nbsp;</td>
+          </tr>
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UnauthorizeDefinitionParser.html">UnauthorizeDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UpdateContactDefinitionParser.html">UpdateContactDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class=" api apilevel-" >
+        <tr class="alt-color api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UpdateContactPhotoDefinitionParser.html">UpdateContactPhotoDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
-        <tr class="alt-color api apilevel-" >
+        <tr class=" api apilevel-" >
               <td class="jd-linkcol"><a href="../../../../../../../java/org/mule/modules/google/contact/config/UpdateGroupDefinitionParser.html">UpdateGroupDefinitionParser</a></td>
               <td class="jd-descrcol" width="100%">&nbsp;</td>
           </tr>
