@@ -576,7 +576,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * @param groupName the name of the group you want
 	 * @return an instance of {@link com.google.gdata.data.contacts.ContactGroupEntry} or <code>null</code> if the group doesn't exist
 	 * @throws IOException if there's a communication error with google's servers
-	 * @throws ServiceException if the operation raises an error on google's end
+	 * @throws Exception if the operation raises an error on google's end
 	 */
 	@Processor
 	@OAuthProtected
