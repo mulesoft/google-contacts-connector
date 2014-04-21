@@ -9,7 +9,7 @@
 
 package org.mule.modules.google.contact.automation.testcases;
 
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 import com.google.gdata.data.BaseEntry;
 import com.google.gdata.data.Link;
 import org.junit.Before;
