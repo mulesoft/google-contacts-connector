@@ -21,8 +21,8 @@ import org.mule.modules.google.contact.automation.testcases.*;
 
 @SuiteClasses({
         AddGroupTestCases.class, BatchContactsTestCases.class,
-        BatchDeleteTestCases.class, BatchGroupsTestCases.class,
-        BatchInsertTestCases.class, BatchUpdateTestCases.class,
+        BatchInsertTestCases.class, BatchGroupsTestCases.class,
+        BatchUpdateTestCases.class, BatchDeleteTestCases.class,
         CreateGroupTestCases.class, DeleteContactByIdTestCases.class,
         DeleteContactPhotoByIdTestCases.class, DeleteContactPhotoTestCases.class,
         DeleteContactTestCases.class, DeleteGroupByIdTestCases.class,
