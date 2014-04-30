@@ -59,6 +59,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
+
 /**
  * Cloud connector for the Google Contacts API v3 using OAuth2 for initialization.
  * Uses OAuth2 for authentication
@@ -227,7 +228,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
                 List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
 
                 try {
-                    ContactsService contactsService = (ContactsService) connector.getClient();
+                    ContactsService contactsService = (ContactsService)connector.getClient();
                     for (ContactEntry entry : contactsService.getFeed(query, ContactFeed.class).getEntries()) {
                         entriesResult.add(new GoogleContactEntry(entry));
                     }
@@ -491,7 +492,6 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
             final @Optional String updatedMax,
             final @Default(DateTimeUtils.RFC3339) String datetimeFormat,
             final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
-
         return new TokenBasedPagingDelegate<GoogleContactGroupEntry>() {
             private int start = 1;
 
@@ -513,7 +513,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
                 List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
 
                 try {
-                    ContactsService contactsService = (ContactsService) connector.getClient();
+                    ContactsService contactsService = (ContactsService)connector.getClient();
                     for (ContactGroupEntry cge : contactsService.getFeed(query, ContactGroupFeed.class).getEntries()) {
                         listResult.add(new GoogleContactGroupEntry(cge));
                     }
