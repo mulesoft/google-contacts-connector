@@ -1,6 +1,14 @@
-.classpath
-.settings/
-.project
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.classpath
+*.settings
+*.project
 target
 .DS_Store
-bin/
+.idea
+*.iml
+.studio

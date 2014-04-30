@@ -1,3 +1,8 @@
+2.0.0
+=====
+    * Added automated test cases
+    * Minor fix in the wrappers
+
 1.7.4
 =====
 	* Removed public getWrapped() from GoogleContactBaseEntry and added a static method to get the wrapped entity. This is to prevent the mapping to Ex. object-to-json of the wrapped entity.

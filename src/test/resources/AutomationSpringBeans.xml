@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>${GOOGLE_CONTACTS_CREDENTIALS}</value>
+        </property>
+    </bean>
+
+    <bean id="connectorOAuthState" class="org.mule.common.security.oauth.OAuthState">
+        <property name="accessToken" value="${google.contacts.accessToken}"/>
+    </bean>
+
+    <bean id="contactRef" class="org.mule.modules.google.contact.wrappers.GoogleContactEntry" scope="prototype">
+        <property name="fullName" value="Elizabeth Bennet"/>
+        <property name="givenName" value="Elizabeth"/>
+        <property name="familyName" value="Bennet"/>
+        <property name="emailAddresses">
+            <list>
+                <bean class="com.google.gdata.data.extensions.Email">
+                    <property name="address" value="elizabeth.bennet@mulesoft.com"/>
+                    <property name="displayName" value="E. Bennet"/>
+                    <property name="rel" value="http://schemas.google.com/g/2005#work"/>
+                    <property name="primary" value="true"/>
+                </bean>
+                <bean class="com.google.gdata.data.extensions.Email">
+                    <property name="address" value="bennet.elizabeth@gmail.com"/>
+                    <property name="rel" value="http://schemas.google.com/g/2005#home"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="groupRef" class="org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry" scope="prototype">
+        <property name="title">
+            <bean class="com.google.gdata.data.PlainTextConstruct">
+                <constructor-arg value="Salsa Friends"/>
+            </bean>
+        </property>
+    </bean>
+
+    <util:map id="addGroup" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="batchContacts" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="numContacts" value="#{3}"/>
+    </util:map>
+
+    <util:map id="batchDelete" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="numContacts" value="#{3}"/>
+    </util:map>
+
+    <util:map id="batchGroups" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+        <entry key="numGroups" value="#{3}"/>
+    </util:map>
+
+    <util:map id="batchInsert" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="numContacts" value="#{3}"/>
+    </util:map>
+
+    <util:map id="batchUpdate" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="numContacts" value="#{3}"/>
+        <entry key="updateInfo">
+            <bean class="com.google.gdata.data.contacts.Occupation">
+                <constructor-arg value="Enterprise Integration Specialist"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <util:map id="createGroup" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="deleteContactById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="deleteContactPhotoById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="imagePath" value="images/mulesoft.png"/>
+    </util:map>
+
+    <util:map id="deleteContactPhoto" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="imagePath" value="images/mulesoft.png"/>
+    </util:map>
+
+    <util:map id="deleteContact" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="deleteGroupById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="deleteGroup" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="downloadPhotoById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="imagePath" value="images/mulesoft.png"/>
+    </util:map>
+
+    <util:map id="downloadPhoto" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="imagePath" value="images/mulesoft.png"/>
+    </util:map>
+
+    <util:map id="getContactById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="getContacts" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="getGroupById" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="getGroupByName" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="getGroups" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+    </util:map>
+
+    <util:map id="insertContact" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+    </util:map>
+
+    <util:map id="updateContactPhoto" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="imagePath" value="images/mulesoft.png"/>
+    </util:map>
+
+    <util:map id="updateContact" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="contactRef" value-ref="contactRef"/>
+        <entry key="updateTitle">
+            <bean class="com.google.gdata.data.contacts.Occupation">
+                <constructor-arg value="Enterprise Integration Specialist"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <util:map id="updateGroup" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="groupRef" value-ref="groupRef"/>
+        <entry key="updateTitle">
+            <bean class="com.google.gdata.data.PlainTextConstruct">
+                <constructor-arg value="Friends from Salsa class"/>
+            </bean>
+        </entry>
+    </util:map>
+</beans>
+
+
+
