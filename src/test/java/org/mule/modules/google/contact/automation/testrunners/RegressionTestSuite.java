@@ -7,7 +7,7 @@
  * LICENSE.txt file.
  */
 
-package org.mule.modules.google.contact.automation;
+package org.mule.modules.google.contact.automation.testrunners;
 
 import org.junit.experimental.categories.Categories;
 import org.junit.experimental.categories.Categories.IncludeCategory;
