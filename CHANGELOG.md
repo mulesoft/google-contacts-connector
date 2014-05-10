@@ -1,32 +1,53 @@
-2.0.0
-=====
-    * Added automated test cases
-    * Minor fix in the wrappers
+Google Contacts Connector Release Notes
+==========================================
 
-1.7.4
-=====
-	* Removed public getWrapped() from GoogleContactBaseEntry and added a static method to get the wrapped entity. This is to prevent the mapping to Ex. object-to-json of the wrapped entity.
+Date: 12-May-2014
 
-1.7.3
-=====
-	* Added getters/setters to GoogleContactEntry POJO
-	* Changed getEmailAddresses and setEmailAddresses signatures. Previously using List<String>, now List<Email>
+Version: 2.0.0
 
-1.7.2
-=====
-	* Changed UpdateDateTime getters/setters to Update
+Supported API versions: Google Contacts API v3 - https://developers.google.com/google-apps/contacts/v3/reference
 
-1.7.1
-=====
-	* Minor fix in wrappers (Fix CLDCONNECT-822)
+Supported Mule Runtime Versions: 3.5.0
 
-1.7
-===
-	* Added demo project (Mule Studio Application)
-1.6
-===
-	* WARNING: the operation signatures of the connector has been changed. This may lead that a Mule Studio project maded with a previous version of the connector stop working.
-	* Wrapped entity objects for simplification for all the Operations
-1.0
-===
-	* Initial release
+Closed Issues in this release
+------------------------------
+
+ - Upgraded Mule Devkit to 3.5.0.
+ - Removed @Optional as it is redundant when used along @Default.
+ - Removed deprecated @OAuthInvalidateAccessTokenOn and added @ReconnectOn on the Connector.
+ - Added automated test cases. [CLDCONNECT-903]
+ - Minor fixes in the wrappers.
+ - The list of operations supported by this version are
+    - Get Contacts
+    - Get Contact By Id
+    - Insert Contact
+    - Update Contact
+    - Delete Contact By Id
+    - Delete Contact
+    - Download Photo By Id
+    - Download Photo
+    - Update Contact Photo
+    - Delete Contact Photo By Id
+    - Delete Contact Photo
+    - Get Groups
+    - Get Group By Name
+    - Get Group By Id
+    - Add Group
+    - Create Group
+    - Update Group
+    - Delete Group By Id
+    - Delete Group
+    - Batch Contacts
+    - Batch Groups
+    - Batch Insert
+    - Batch Update
+    - Batch Delete
+
+1.7.x
+=====
+ - Added demo project (Mule Studio Application)
+ - Minor fix in wrappers [CLDCONNECT-822]
+ - Changed UpdateDateTime getters/setters to Update
+ - Added getters/setters to GoogleContactEntry POJO
+ - Changed getEmailAddresses and setEmailAddresses signatures. Previously using List<String>, now List<Email>
+ - Removed public getWrapped() from GoogleContactBaseEntry and added a static method to get the wrapped entity. This is to prevent the mapping to Ex. object-to-json of the wrapped entity.
