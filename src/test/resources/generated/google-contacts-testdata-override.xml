@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<connector name="Google Contacts">
+    <properties>
+    <connectivity-support>true</connectivity-support>
+    <OAuth-authentication>true</OAuth-authentication>
+    <metadata>static</metadata>
+    <datasense-enabled>true</datasense-enabled>
+    <transformer>false</transformer>
+  </properties>
+    <oauthConfig>
+        <required caption="Name" group="Basic Settings" javaType="java.lang.String" name="name" type="name">Google_Contacts</required>
+        <required caption="Consumer Key" group="General" javaType="java.lang.String" name="consumerKey" prefix="google-contacts" type="string">ConsumerKey</required>
+        <required caption="Consumer Secret" group="General" javaType="java.lang.String" name="consumerSecret" prefix="google-contacts" type="string">ConsumerSecret</required>
+        <required caption="Application Name" group="General" javaType="java.lang.String" name="applicationName" prefix="google-contacts" type="string">Google_Contacts</required>
+    </oauthConfig>
+    <message-processors>
+        <authorize name="Authorize">
+            <datamapper input="" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </authorize>
+        <unauthorize name="Unauthorize">
+            <datamapper input="" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </unauthorize>
+        <get-contacts name="Get contacts">
+            <datamapper input="ProviderAwarePagingDelegate&lt;GoogleContactEntry,AbstractGoogleOAuthConnector&gt;" output="SortOrder"/>
+            <auto-paging>true</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </get-contacts>
+        <get-contact-by-id name="Get contact by id">
+            <datamapper input="GoogleContactEntry" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </get-contact-by-id>
+        <insert-contact name="Insert contact">
+            <datamapper input="GoogleContactEntry" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </insert-contact>
+        <update-contact name="Update contact">
+            <datamapper input="GoogleContactEntry" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </update-contact>
+        <add-group name="Add group">
+            <datamapper input="GoogleContactEntry" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Group Id" group="General" javaType="java.lang.String" name="groupId" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </add-group>
+        <delete-contact-by-id name="Delete contact by id">
+            <datamapper input="" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </delete-contact-by-id>
+        <delete-contact name="Delete contact">
+            <datamapper input="" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </delete-contact>
+        <download-photo-by-id name="Download photo by id">
+            <datamapper input="InputStream" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </download-photo-by-id>
+        <download-photo name="Download photo">
+            <datamapper input="InputStream" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </download-photo>
+        <update-contact-photo name="Update contact photo">
+            <datamapper input="" output="InputStream"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </update-contact-photo>
+        <delete-contact-photo-by-id name="Delete contact photo by id">
+            <datamapper input="" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </delete-contact-photo-by-id>
+        <delete-contact-photo name="Delete contact photo">
+            <datamapper input="" output="GoogleContactEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </delete-contact-photo>
+        <get-groups name="Get groups">
+            <datamapper input="ProviderAwarePagingDelegate&lt;GoogleContactGroupEntry,AbstractGoogleOAuthConnector&gt;" output=""/>
+            <auto-paging>true</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </get-groups>
+        <get-group-by-name name="Get group by name">
+            <datamapper input="GoogleContactGroupEntry" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Group Name" group="General" javaType="java.lang.String" name="groupName" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </get-group-by-name>
+        <get-group-by-id name="Get group by id">
+            <datamapper input="GoogleContactGroupEntry" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </get-group-by-id>
+        <create-group name="Create group">
+            <datamapper input="GoogleContactGroupEntry" output="GoogleContactGroupEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </create-group>
+        <update-group name="Update group">
+            <datamapper input="GoogleContactGroupEntry" output="GoogleContactGroupEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </update-group>
+        <delete-group-by-id name="Delete group by id">
+            <datamapper input="" output=""/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Group Id" group="General" javaType="java.lang.String" name="groupId" type="string">2werdftgyhujikopilirtds23342</required>
+            </attributes>
+            <childElements/>
+        </delete-group-by-id>
+        <delete-group name="Delete group">
+            <datamapper input="" output="GoogleContactGroupEntry"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </delete-group>
+        <batch-contacts name="Batch contacts">
+            <datamapper input="List&lt;BatchResult&gt;" output="List&lt;NestedProcessor&gt;"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </batch-contacts>
+        <batch-groups name="Batch groups">
+            <datamapper input="List&lt;BatchResult&gt;" output="List&lt;NestedProcessor&gt;"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes/>
+            <childElements/>
+        </batch-groups>
+        <batch-insert name="Batch insert">
+            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string">insert</required>
+            </attributes>
+            <childElements/>
+        </batch-insert>
+        <batch-update name="Batch update">
+            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string">update</required>
+            </attributes>
+            <childElements/>
+        </batch-update>
+        <batch-delete name="Batch delete">
+            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <auto-paging>false</auto-paging>
+            <query-support>false</query-support>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string">delete</required>
+            </attributes>
+            <childElements/>
+        </batch-delete>
+    </message-processors>
+</connector>
