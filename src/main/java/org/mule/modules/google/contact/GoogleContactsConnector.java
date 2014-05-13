@@ -696,7 +696,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
      */
     @Processor
     @Inject
-    public void batchInsert(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+    public void batchInsert(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
             this.addBatchOperation(
@@ -723,7 +723,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
      */
     @Processor
     @Inject
-    public void batchUpdate(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+    public void batchUpdate(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
             this.addBatchOperation(
@@ -750,7 +750,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
      */
     @Processor
     @Inject
-    public void batchDelete(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity<?>> entries) {
+    public void batchDelete(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
             this.addBatchOperation(
