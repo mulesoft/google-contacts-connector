@@ -29,7 +29,7 @@
             <childElements/>
         </unauthorize>
         <get-contacts name="Get contacts">
-            <datamapper input="ProviderAwarePagingDelegate&lt;GoogleContactEntry,AbstractGoogleOAuthConnector&gt;" output="SortOrder"/>
+            <datamapper input="List&lt;GoogleContactEntry&gt;" output=""/>
             <auto-paging>true</auto-paging>
             <query-support>false</query-support>
             <attributes/>
@@ -125,7 +125,7 @@
             <childElements/>
         </delete-contact-photo>
         <get-groups name="Get groups">
-            <datamapper input="ProviderAwarePagingDelegate&lt;GoogleContactGroupEntry,AbstractGoogleOAuthConnector&gt;" output=""/>
+            <datamapper input="List&lt;GoogleContactGroupEntry&gt;" output=""/>
             <auto-paging>true</auto-paging>
             <query-support>false</query-support>
             <attributes/>
@@ -194,7 +194,7 @@
             <childElements/>
         </batch-groups>
         <batch-insert name="Batch insert">
-            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <datamapper input="" output="List&lt;GoogleContactBaseEntity&gt;"/>
             <auto-paging>false</auto-paging>
             <query-support>false</query-support>
             <attributes>
@@ -203,7 +203,7 @@
             <childElements/>
         </batch-insert>
         <batch-update name="Batch update">
-            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <datamapper input="" output="List&lt;GoogleContactBaseEntity&gt;"/>
             <auto-paging>false</auto-paging>
             <query-support>false</query-support>
             <attributes>
@@ -212,7 +212,7 @@
             <childElements/>
         </batch-update>
         <batch-delete name="Batch delete">
-            <datamapper input="" output="Collection&lt;GoogleContactBaseEntity&lt;?&gt;&gt;"/>
+            <datamapper input="" output="List&lt;GoogleContactBaseEntity&gt;"/>
             <auto-paging>false</auto-paging>
             <query-support>false</query-support>
             <attributes>
