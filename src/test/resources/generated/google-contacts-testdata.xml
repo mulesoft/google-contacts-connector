@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<connector name="Google Contacts">
+    <global-config>
+        <config-with-oauth>
+            <attributes>
+                <optional caption="Name" group="Basic Settings" javaType="java.lang.String" name="name" type="name"/>
+                <optional caption="Application Name" default="Mule-GoogleContactsConnector/1.0" group="General" javaType="java.lang.String" name="applicationName" type="string"/>
+                <required caption="Consumer Key" group="General" javaType="java.lang.String" name="consumerKey" type="string"/>
+                <required caption="Consumer Secret" group="General" javaType="java.lang.String" name="consumerSecret" type="string"/>
+                <optional caption="Scope" default="https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds" group="General" javaType="java.lang.String" name="scope" type="string"/>
+                <optional caption="On No Token" default="EXCEPTION" group="General" javaType="java.lang.String" name="onNoToken" type="enum"/>
+            </attributes>
+            <childElements>
+                <optional name="oauth-store-config">
+                    <attributes controlled="complex">
+                        <required name="objectStore-ref"/>
+                    </attributes>
+                    <attributes controlled="useReference">
+                        <required name="ref"/>
+                    </attributes>
+                </optional>
+                <required name="oauth-callback-config">
+                    <attributes controlled="complex">
+                        <optional name="localPort"/>
+                        <optional name="remotePort"/>
+                        <optional name="domain"/>
+                        <optional default="false" name="async"/>
+                        <optional name="path"/>
+                        <optional name="connector-ref"/>
+                        <optional name="defaultAccessTokenId"/>
+                    </attributes>
+                    <attributes controlled="useReference">
+                        <required name="ref"/>
+                    </attributes>
+                </required>
+            </childElements>
+        </config-with-oauth>
+    </global-config>
+    <message-processors>
+        <authorize>
+            <attributes>
+                <optional caption="State" group="General" javaType="java.lang.String" name="state" type="string"/>
+                <optional caption="Access_type" default="online" group="Additional Authorization Parameters" javaType="org.mule.modules.google.AccessType" name="access_type" type="enum"/>
+                <optional caption="Force_prompt" default="auto" group="Additional Authorization Parameters" javaType="org.mule.modules.google.ForcePrompt" name="force_prompt" type="enum"/>
+                <optional caption="Access Token Id" group="General" javaType="java.lang.String" name="accessTokenId" type="string"/>
+            </attributes>
+        </authorize>
+        <unauthorize>
+            <attributes>
+                <optional caption="Access Token Id" group="General" javaType="java.lang.String" name="accessTokenId" type="string"/>
+            </attributes>
+        </unauthorize>
+        <get-contacts>
+            <attributes>
+                <optional caption="Updated Min" group="General" javaType="java.lang.String" name="updatedMin" type="string"/>
+                <optional caption="Updated Max" group="General" javaType="java.lang.String" name="updatedMax" type="string"/>
+                <optional caption="Datetime Format" default="yyyy-MM-dd'T'HH:mm:ss'Z'" group="General" javaType="java.lang.String" name="datetimeFormat" type="string"/>
+                <optional caption="Full Text Query" group="General" javaType="java.lang.String" name="fullTextQuery" type="string"/>
+                <optional caption="Sort Order" default="NONE" group="General" javaType="com.google.gdata.client.contacts.ContactQuery.SortOrder" name="sortOrder" type="enum"/>
+                <optional caption="Show Deleted" default="false" group="General" javaType="java.lang.Boolean" name="showDeleted" type="boolean"/>
+                <optional caption="Order By" default="NONE" group="General" javaType="com.google.gdata.client.contacts.ContactQuery.OrderBy" name="orderBy" type="enum"/>
+                <optional caption="Group Id" group="General" javaType="java.lang.String" name="groupId" type="string"/>
+                <optional caption="Fetch Size" default="100" group="Paging" javaType="java.lang.String" name="fetchSize" type="string"/>
+            </attributes>
+        </get-contacts>
+        <get-contact-by-id>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string"/>
+            </attributes>
+        </get-contact-by-id>
+        <insert-contact>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+            </attributes>
+        </insert-contact>
+        <update-contact>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+            </attributes>
+        </update-contact>
+        <add-group>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+                <required caption="Group Id" group="General" javaType="java.lang.String" name="groupId" type="string"/>
+            </attributes>
+        </add-group>
+        <delete-contact-by-id>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string"/>
+            </attributes>
+        </delete-contact-by-id>
+        <delete-contact>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+            </attributes>
+        </delete-contact>
+        <download-photo-by-id>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string"/>
+            </attributes>
+        </download-photo-by-id>
+        <download-photo>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+            </attributes>
+        </download-photo>
+        <update-contact-photo>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string"/>
+                <optional caption="In Reference" default="#[payload]" group="General" javaType="java.io.InputStream" name="in-ref" type="string"/>
+            </attributes>
+        </update-contact-photo>
+        <delete-contact-photo-by-id>
+            <attributes>
+                <required caption="Contact Id" group="General" javaType="java.lang.String" name="contactId" type="string"/>
+            </attributes>
+        </delete-contact-photo-by-id>
+        <delete-contact-photo>
+            <attributes>
+                <optional caption="Contact Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactEntry" name="contact-ref" type="string"/>
+            </attributes>
+        </delete-contact-photo>
+        <get-groups>
+            <attributes>
+                <optional caption="Updated Min" group="General" javaType="java.lang.String" name="updatedMin" type="string"/>
+                <optional caption="Updated Max" group="General" javaType="java.lang.String" name="updatedMax" type="string"/>
+                <optional caption="Datetime Format" default="yyyy-MM-dd'T'HH:mm:ss'Z'" group="General" javaType="java.lang.String" name="datetimeFormat" type="string"/>
+                <optional caption="Fetch Size" default="100" group="Paging" javaType="java.lang.String" name="fetchSize" type="string"/>
+            </attributes>
+        </get-groups>
+        <get-group-by-name>
+            <attributes>
+                <required caption="Group Name" group="General" javaType="java.lang.String" name="groupName" type="string"/>
+            </attributes>
+        </get-group-by-name>
+        <get-group-by-id>
+            <attributes>
+                <required caption="Id" group="General" javaType="java.lang.String" name="id" type="string"/>
+            </attributes>
+        </get-group-by-id>
+        <create-group>
+            <attributes>
+                <optional caption="Group Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry" name="group-ref" type="string"/>
+            </attributes>
+        </create-group>
+        <update-group>
+            <attributes>
+                <optional caption="Group Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry" name="group-ref" type="string"/>
+            </attributes>
+        </update-group>
+        <delete-group-by-id>
+            <attributes>
+                <required caption="Group Id" group="General" javaType="java.lang.String" name="groupId" type="string"/>
+            </attributes>
+        </delete-group-by-id>
+        <delete-group>
+            <attributes>
+                <optional caption="Group Reference" default="#[payload]" group="General" javaType="org.mule.modules.google.contact.wrappers.GoogleContactGroupEntry" name="group-ref" type="string"/>
+            </attributes>
+        </delete-group>
+        <batch-contacts>
+            <attributes>
+                <optional caption="Batch Id" group="General" javaType="java.lang.String" name="batchId" type="string"/>
+            </attributes>
+        </batch-contacts>
+        <batch-groups>
+            <attributes>
+                <optional caption="Batch Id" group="General" javaType="java.lang.String" name="batchId" type="string"/>
+            </attributes>
+        </batch-groups>
+        <batch-insert>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string"/>
+                <optional caption="Entries Reference" default="#[payload]" group="General" javaType="java.util.Collection&lt;org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity&lt;?&gt;&gt;" name="entries-ref" type="string"/>
+            </attributes>
+        </batch-insert>
+        <batch-update>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string"/>
+                <optional caption="Entries Reference" default="#[payload]" group="General" javaType="java.util.Collection&lt;org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity&lt;?&gt;&gt;" name="entries-ref" type="string"/>
+            </attributes>
+        </batch-update>
+        <batch-delete>
+            <attributes>
+                <required caption="Operation Id" group="General" javaType="java.lang.String" name="operationId" type="string"/>
+                <optional caption="Entries Reference" default="#[payload]" group="General" javaType="java.util.Collection&lt;org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity&lt;?&gt;&gt;" name="entries-ref" type="string"/>
+            </attributes>
+        </batch-delete>
+    </message-processors>
+    <inbound-endpoint/>
+    <outbound-endpoints/>
+</connector>
