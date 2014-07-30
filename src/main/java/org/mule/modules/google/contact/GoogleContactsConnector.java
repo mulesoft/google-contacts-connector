@@ -30,6 +30,7 @@ import org.mule.api.NestedProcessor;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.lifecycle.Start;
 import org.mule.api.annotations.oauth.OAuth2;
 import org.mule.api.annotations.oauth.OAuthAccessToken;
 import org.mule.api.annotations.oauth.OAuthAccessTokenIdentifier;
@@ -42,11 +43,9 @@ import org.mule.api.annotations.oauth.OAuthProtected;
 import org.mule.api.annotations.oauth.OAuthScope;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.modules.google.AbstractGoogleOAuthConnector;
-import org.mule.modules.google.AccessType;
-import org.mule.modules.google.ForcePrompt;
-import org.mule.modules.google.IdentifierPolicy;
+import org.mule.modules.google.*;
 import org.mule.modules.google.api.domain.BatchResult;
+import org.mule.modules.google.api.proxy.ProxyOptions;
 import org.mule.modules.google.api.util.DateTimeUtils;
 import org.mule.modules.google.contact.wrappers.GoogleContactBaseEntity;
 import org.mule.modules.google.contact.wrappers.GoogleContactEntry;
@@ -152,6 +151,21 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     
 	@OAuthAccessToken
 	private String accessToken;
+
+    /**
+     * Proxy Host
+     */
+    @Configurable
+    @Optional
+    private String proxyHost;
+
+    /**
+     * Proxy Port
+     */
+    @Configurable
+    @Optional
+    @Default("8080")
+    private Integer proxyPort;
     
     /**
      * The actual instance of the {@link com.google.gdata.client.contacts.ContactsService}
@@ -187,13 +201,16 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
    	public void postAuth() {
    		Credential credential = new InvalidationAwareCredential(BearerToken.authorizationHeaderAccessMethod());
    		credential.setAccessToken(this.getAccessToken());
-   		
-   		ContactsService service = new ContactsService(this.getApplicationName());
-   		service.setProtocolVersion(ContactsService.Versions.V3);
-		service.setOAuth2Credentials(credential);
-
-		this.setService(service);
+		getService().setOAuth2Credentials(credential);
    	}
+
+    @Start
+    public void initialize() {
+        ContactsService service = new ContactsService(this.getApplicationName());
+        service.setProtocolVersion(ContactsService.Versions.V3);
+        service.setProxy(CommonsUtils.createProxy(new ProxyOptions(getProxyHost(), getProxyPort())));
+        setService(service);
+    }
 	
 	/**
 	 * Retrieves all the contacts matching the given criterias. If a criteria is not provided
@@ -502,7 +519,6 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	 * 
 	 * {@sample.xml ../../../doc/GoogleContactsConnector.xml.sample google-contacts:delete-contact-photo}
 	 * 
-	 * @param accessToken the OAuth2 access token
 	 * @param updatedMin Sets the minimum updated timestamp used for the query.  Only entries with
 	 * 					an updated timestamp equal to or later than the specified timestamp will be returned. 
 	 * @param updatedMax Sets the maximum updated timestamp used for the query.  Only entries with
@@ -941,4 +957,20 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 	public void setIdentifierPolicy(IdentifierPolicy identifierPolicy) {
 		this.identifierPolicy = identifierPolicy;
 	}
+
+    public String getProxyHost() {
+        return proxyHost;
+    }
+
+    public void setProxyHost(String proxyHost) {
+        this.proxyHost = proxyHost;
+    }
+
+    public Integer getProxyPort() {
+        return proxyPort;
+    }
+
+    public void setProxyPort(Integer proxyPort) {
+        this.proxyPort = proxyPort;
+    }
 }
