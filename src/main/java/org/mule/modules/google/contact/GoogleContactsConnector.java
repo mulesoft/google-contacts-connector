@@ -1,7 +1,6 @@
 /**
- *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
- *
+ * <p/>
  * The software in this package is published under the terms of the CPAL v1.0
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
@@ -59,7 +58,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
-
 /**
  * Cloud connector for the Google Contacts API v3 using OAuth2 for initialization.
  * Uses OAuth2 for authentication
@@ -67,21 +65,20 @@ import java.util.*;
  * @author MuleSoft, Inc.
  */
 @Connector(name = "google-contacts", schemaVersion = "1.0", friendlyName = "Google Contacts", minMuleVersion = "3.5", configElementName = "config-with-oauth")
-@OAuth2(
+        @OAuth2(friendlyName = "OAuth 2.0",
         authorizationUrl = "https://accounts.google.com/o/oauth2/auth",
         accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
         accessTokenRegex = "\"access_token\"[ ]*:[ ]*\"([^\\\"]*)\"",
         expirationRegex = "\"expires_in\"[ ]*:[ ]*([\\d]*)",
         refreshTokenRegex = "\"refresh_token\"[ ]*:[ ]*\"([^\\\"]*)\"",
         authorizationParameters = {
-                @OAuthAuthorizationParameter(name = "access_type", defaultValue = "online", type = AccessType.class, description = "Indicates if your application needs to access a Google API when the user is not present at the browser. " +
-                        " Use offline to get a refresh token and use that when the user is not at the browser. Default is online", optional = true),
-                @OAuthAuthorizationParameter(name = "force_prompt", defaultValue = "auto", type = ForcePrompt.class, description = "Indicates if google should remember that an app has been authorized or if each should ask authorization every time. " +
-                        " Use force to request authorization every time or auto to only do it the first time. Default is auto", optional = true)
-        }
-)
-@ReconnectOn(exceptions = OAuthTokenExpiredException.class)
-public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
+                @OAuthAuthorizationParameter(name = "access_type", defaultValue = "online", type = AccessType.class, description =
+                        "Indicates if your application needs to access a Google API when the user is not present at the browser. "
+                                + " Use offline to get a refresh token and use that when the user is not at the browser. Default is online", optional = true),
+                @OAuthAuthorizationParameter(name = "force_prompt", defaultValue = "auto", type = ForcePrompt.class, description =
+                        "Indicates if google should remember that an app has been authorized or if each should ask authorization every time. "
+                                + " Use force to request authorization every time or auto to only do it the first time. Default is auto", optional = true) }) @ReconnectOn(exceptions = OAuthTokenExpiredException.class) public class GoogleContactsConnector
+        extends AbstractGoogleOAuthConnector {
 
     private static final String CONTACT_FEED_URL = "https://www.google.com/m8/feeds/contacts/default/full";
     private static final String GROUP_FEED_URL = "https://www.google.com/m8/feeds/groups/default/full";
@@ -154,7 +151,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     }
 
     @OAuthPostAuthorization
-    public void postAuth() {
+    public void postAuthorization() {
         Credential credential = new InvalidationAwareCredential(BearerToken.authorizationHeaderAccessMethod());
         credential.setAccessToken(this.getAccessToken());
 
@@ -190,18 +187,13 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     @Processor
     @OAuthProtected
     @Paged
-    public ProviderAwarePagingDelegate<GoogleContactEntry, AbstractGoogleOAuthConnector> getContacts(
-            final @Optional String updatedMin,
-            final @Optional String updatedMax,
-            final @Default(DateTimeUtils.RFC3339) String datetimeFormat,
-            final @Optional String fullTextQuery,
-            final @Default("NONE") SortOrder sortOrder,
-            final @Default("false") Boolean showDeleted,
-            final @Default("NONE") OrderBy orderBy,
-            final @Optional String groupId,
-            final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
+    public ProviderAwarePagingDelegate<GoogleContactEntry, AbstractGoogleOAuthConnector> getContacts(final @Optional String updatedMin, final @Optional String updatedMax,
+            final @Default(DateTimeUtils.RFC3339) String datetimeFormat, final @Optional String fullTextQuery, final @Default("NONE") SortOrder sortOrder,
+            final @Default("false") Boolean showDeleted, final @Default("NONE") OrderBy orderBy, final @Optional String groupId, final PagingConfiguration pagingConfiguration)
+            throws IOException, ServiceException {
 
         return new TokenBasedPagingDelegate<GoogleContactEntry>() {
+
             private int start = 1;
 
             @Override
@@ -228,7 +220,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
                 List<GoogleContactEntry> entriesResult = new LinkedList<GoogleContactEntry>();
 
                 try {
-                    ContactsService contactsService = (ContactsService)connector.getClient();
+                    ContactsService contactsService = (ContactsService) connector.getClient();
                     for (ContactEntry entry : contactsService.getFeed(query, ContactFeed.class).getEntries()) {
                         entriesResult.add(new GoogleContactEntry(entry));
                     }
@@ -301,11 +293,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     public GoogleContactEntry updateContact(@Default("#[payload]") GoogleContactEntry contact) throws IOException, ServiceException, IllegalArgumentException, URISyntaxException {
         URL updateUrl = new URL(contact.getEditLink().getHref());
 
-        return new GoogleContactEntry(
-                getService().update(
-                        updateUrl,
-                        GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact)));
-
+        return new GoogleContactEntry(getService().update(updateUrl, GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact)));
 
     }
 
@@ -334,7 +322,6 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
 
         return new GoogleContactEntry(getService().update(editUrl, GoogleContactBaseEntity.getWrappedEntity(ContactEntry.class, contact)));
     }
-
 
     /**
      * Deletes a contact signaled by its id
@@ -487,12 +474,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     @Processor
     @OAuthProtected
     @Paged
-    public ProviderAwarePagingDelegate<GoogleContactGroupEntry, AbstractGoogleOAuthConnector> getGroups(
-            final @Optional String updatedMin,
-            final @Optional String updatedMax,
-            final @Default(DateTimeUtils.RFC3339) String datetimeFormat,
-            final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
+    public ProviderAwarePagingDelegate<GoogleContactGroupEntry, AbstractGoogleOAuthConnector> getGroups(final @Optional String updatedMin, final @Optional String updatedMax,
+            final @Default(DateTimeUtils.RFC3339) String datetimeFormat, final PagingConfiguration pagingConfiguration) throws IOException, ServiceException {
         return new TokenBasedPagingDelegate<GoogleContactGroupEntry>() {
+
             private int start = 1;
 
             @Override
@@ -513,7 +498,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
                 List<GoogleContactGroupEntry> listResult = new LinkedList<GoogleContactGroupEntry>();
 
                 try {
-                    ContactsService contactsService = (ContactsService)connector.getClient();
+                    ContactsService contactsService = (ContactsService) connector.getClient();
                     for (ContactGroupEntry cge : contactsService.getFeed(query, ContactGroupFeed.class).getEntries()) {
                         listResult.add(new GoogleContactGroupEntry(cge));
                     }
@@ -699,11 +684,8 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     public void batchInsert(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
-            this.addBatchOperation(
-                    GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
-                    operationId,
-                    BatchOperationType.INSERT,
-                    message);
+            this.addBatchOperation(GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
+                    operationId, BatchOperationType.INSERT, message);
         }
     }
 
@@ -726,11 +708,8 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     public void batchUpdate(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
-            this.addBatchOperation(
-                    GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
-                    operationId,
-                    BatchOperationType.UPDATE,
-                    message);
+            this.addBatchOperation(GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
+                    operationId, BatchOperationType.UPDATE, message);
         }
     }
 
@@ -753,11 +732,8 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
     public void batchDelete(MuleMessage message, String operationId, @Default("#[payload]") Collection<GoogleContactBaseEntity> entries) {
 
         for (GoogleContactBaseEntity<?> entry : entries) {
-            this.addBatchOperation(
-                    GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
-                    operationId,
-                    BatchOperationType.DELETE,
-                    message);
+            this.addBatchOperation(GoogleContactBaseEntity.getWrappedEntity((entry instanceof GoogleContactEntry ? ContactEntry.class : ContactGroupEntry.class), entry),
+                    operationId, BatchOperationType.DELETE, message);
         }
     }
 
@@ -835,8 +811,7 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
             throw new RuntimeException("The batch has been interrupted", e);
         }
 
-        @SuppressWarnings("unchecked")
-        List<BaseEntry<?>> entries = (List<BaseEntry<?>>) response.getEntries();
+        @SuppressWarnings("unchecked") List<BaseEntry<?>> entries = (List<BaseEntry<?>>) response.getEntries();
 
         if (entries.isEmpty()) {
             return new ArrayList<BatchResult>();
@@ -855,6 +830,10 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
         return this.contactsService;
     }
 
+    public void setService(ContactsService contactsService) {
+        this.contactsService = contactsService;
+    }
+
     /**
      * @param href
      * @return
@@ -865,10 +844,6 @@ public class GoogleContactsConnector extends AbstractGoogleOAuthConnector {
         } catch (MalformedURLException e) {
             throw new RuntimeException(String.format("%s is not a valid url", href), e);
         }
-    }
-
-    public void setService(ContactsService contactsService) {
-        this.contactsService = contactsService;
     }
 
     public String getApplicationName() {

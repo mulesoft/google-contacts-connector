@@ -1,7 +1,6 @@
 /**
- *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
- *
+ * <p/>
  * The software in this package is published under the terms of the CPAL v1.0
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
@@ -32,7 +31,7 @@ public class DeleteContactTestCases extends GoogleContactsTestParent {
         upsertOnTestRunMessage("contactRef", contactEntry);
     }
 
-    @Category({RegressionTests.class})
+    @Category({ RegressionTests.class })
     @Test
     public void testDeleteContact() {
         try {
@@ -56,7 +55,8 @@ public class DeleteContactTestCases extends GoogleContactsTestParent {
                 // Not found
                 assertTrue(googleException.getHttpErrorCodeOverride() == 404);
                 assertTrue(googleException.getMessage().equals("Not Found"));
-            } else fail(ConnectorTestUtils.getStackTrace(e));
+            } else
+                fail(ConnectorTestUtils.getStackTrace(e));
         }
     }
 }

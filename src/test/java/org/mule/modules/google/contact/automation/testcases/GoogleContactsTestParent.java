@@ -1,7 +1,6 @@
 /**
- *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
- *
+ * <p/>
  * The software in this package is published under the terms of the CPAL v1.0
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
@@ -32,7 +31,6 @@ public class GoogleContactsTestParent extends ConnectorTestCase {
     // Set global timeout of tests to 10minutes
     @Rule
     public Timeout globalTimeout = new Timeout(600000);
-
 
     @Before
     public void init() throws ObjectStoreException, Exception {
