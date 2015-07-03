@@ -5,7 +5,7 @@
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-google-contacts</artifactId>
     <packaging>mule-module</packaging>
-    <name>Google Contacts Connector</name>
+    <name>Mule Google Contacts Connector</name>
     <version>2.0.0-SNAPSHOT</version>
 
     <parent>
